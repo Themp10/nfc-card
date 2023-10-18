@@ -1,0 +1,270 @@
+
+/* Login Style */
+
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+}
+
+.login-form-group {
+  margin-bottom: 15px;
+}
+
+
+.login-form-group label {
+  display: block;
+  padding: 8px;
+  font-weight: bold;
+}
+
+.login-form-group input{
+  padding: 8px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-weight: bold;
+  box-sizing: border-box;
+  margin-top: 5px;
+  
+}
+
+.login-button {
+  padding: 10px 20px;
+  background-color: #9A73B5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: 0.2s;
+}
+
+
+
+
+.login-button:hover{
+  background-color: #ac8ac4;
+}
+
+.login-forgot-password,
+.login-no-account {
+  margin-top: 10px;
+}
+
+.login-forgot-password a{
+  color: #9A73B5;
+  text-decoration: none;
+}
+
+.login-forgot-password a:hover{
+  text-decoration: underline;
+}
+
+.login-no-account a{
+  color: #9A73B5;
+  text-decoration: none;
+}
+
+.login-no-account a:hover{
+  text-decoration: underline;
+}
+
+.login-logo{
+  margin-bottom: 20px;
+}
+
+.login-form h1{
+  margin-bottom: 20px;
+}
+
+
+.error-login-message{
+  color: red;
+  margin-top: 10px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 18px;
+}
+
+.back-to-home p{
+  margin-top: 30px;
+}
+
+.back-to-home{
+  display: flex;
+  align-items: center;
+}
+
+
+/* Register style */
+
+
+.register-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f1f1f1;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+  width: 70%;
+  max-width: 400px;
+
+}
+
+.register-form-group {
+  margin-bottom: 15px;
+}
+
+.label-register {
+  padding: 8px;
+  width: 100%;
+  font-weight: bold;
+}
+
+.input-register,
+.register-button {
+  padding: 8px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-weight: bold;
+  box-sizing: border-box;
+  margin-top: 5px;
+}
+
+.register-button {
+  margin-top: 10px;
+  background-color: #9A73B5;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.register-button:hover {
+  background-color: #9A73B5;
+}
+
+.register-login-link {
+  margin-top: 10px;
+}
+
+.register-login-link  a {
+  color: #9A73B5;
+  text-decoration: none;
+}
+
+.register-login-link  a:hover {
+  text-decoration: underline;
+}
+
+.register-form h1{
+  margin-bottom: 20px;
+}
+
+.register-error-message {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+
+.register-form-group-check label {
+  align-items: center;
+  display: flex;
+}
+
+.register-form-group-check {
+  width: 100%;
+}
+
+.register-form-group-check input[type='checkbox'] {
+  margin-right: 5px;
+}
+
+
+
+/* Email confirmation style */
+
+.emailconfirmation-container{
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.emailconfirmation-content{
+  background-color: #ccb1df;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 20px #aaa4a4;
+}
+
+.emailconfirmation-content div{
+  margin-bottom: 20px;
+}
+
+.emailconfirmation-content button{
+  border: none;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-family: "Montserrat", "sans-serif";
+  border-radius: 10px;
+  background-color: #e6d3f3;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.emailconfirmation-content button:hover{
+  background-color: #a173c2;
+  color: aliceblue;
+}
+
+
+.p-message-style{
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.p-message-style.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-container {
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 420px;
+  text-align: center;
+}

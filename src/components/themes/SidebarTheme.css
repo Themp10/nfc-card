@@ -1,0 +1,30 @@
+.sidebartheme-container{
+    /* background-color: aqua; */
+    margin: 30px;
+}
+
+.sidebartheme-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+}
+
+.sidebartheme-back-icon{
+    cursor: pointer;
+}
+
+.sidebartheme-object{
+    padding: 7px 20px 7px 20px;
+    border-radius: 20px;
+    transition: 0.3s;
+}
+
+.sidebartheme-object:hover{
+    background-color: antiquewhite;
+}
+
+.sidebartheme2-hoveredtext{
+    position: absolute;
+    transform: translateY(40px);
+}

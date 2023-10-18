@@ -1,0 +1,24 @@
+
+.wb-footer-container{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #eedefa;
+    height: 10vh;
+
+}
+
+.wb-footer-icons{
+    color: #a98dbb;
+}
+
+.wb-ft-icon{
+    margin-left: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: 0.1s;
+}
+
+.wb-ft-icon:hover{
+    scale: 1.05;
+}

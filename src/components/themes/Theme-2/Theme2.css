@@ -1,0 +1,189 @@
+.theme2-container-div{
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.Theme2-user-image{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid;
+    border-color: #686de0;
+    margin: 0 auto;
+}
+
+.Theme2-user-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.Theme2-cover-image{
+    margin-top: 20px;
+    background-color: #686de0;
+    height: 100px;
+    padding-top: 40px;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+.Theme2-full-name{
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 70px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    color: #686de0;
+}
+
+.Theme2-social-main{
+    background-color: #e7e7e7;
+    padding: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+.Theme2-social-container{
+    max-width: 350px;
+    margin: 0 auto;
+    border-radius: 20px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+}
+
+.Theme2-social-container > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-color: #686de0;
+    width: 50px;
+    height: 50px;
+    border-radius: 30px;
+    padding: 5px;
+}
+
+.Theme2-fonction{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 30px;
+    font-size: 25px;
+    font-style: italic;
+    font-family: sans-serif;
+    color: #686de0;
+}
+
+.Theme2-phone-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-color: #e7e7e7;
+    padding: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+.Theme2-fa-phone{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.Theme2-phone-section p{
+    color: #686de0;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.Theme2-email-section p{
+    color: #686de0;
+    font-weight: bold;
+    font-family: monospace;
+    font-size: 20px;
+    letter-spacing: 2px;
+}
+
+.Theme2-main-full-name p{
+    color: black;
+}
+
+.Theme2-main-fonction p{
+    color: black;
+}
+
+.Theme2-email-main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    background-color: #e7e7e7;
+    padding: 20px;
+    margin-left: 15px;
+    margin-right: 15px;
+    border-radius: 30px;
+    margin-bottom: 20px;
+}
+
+.Theme2-fa-email{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+}
+
+.Theme2-Facebook-content,
+.Theme2-Instagram-content,
+.Theme2-Linkedin-content,
+.Theme2-Youtube-content,
+.Theme2-Email-content,
+.Theme2-Globe-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.Theme2-Facebook-content:hover,
+.Theme2-Instagram-content:hover,
+.Theme2-Linkedin-content:hover,
+.Theme2-Youtube-content:hover,
+.Theme2-Email-content:hover,
+.Theme2-Globe-content:hover {
+    background-color: #393941;
+
+}
+
+
+.theme2-one-service{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(235, 234, 236);
+    /* box-shadow: 0 0 10px rgba(146, 140, 140, 0.2); */
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    
+  }
+
+  .theme2-service-body{
+    margin-left: 20px;
+  }

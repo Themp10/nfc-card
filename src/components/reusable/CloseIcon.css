@@ -1,0 +1,45 @@
+
+.close-icon{
+    cursor:pointer;
+    width:35px;
+    height: 45px;
+    z-index: 2;
+    margin-left: 5px;
+   
+  }
+
+  .close-icon .bar{
+    z-index: 1;
+    background:var(--accent-200);
+    width:30px;
+    height:3px;
+    margin:0px 2px;
+    position:relative;
+    top:17px;
+    transition:300ms all ease-in-out;
+  }
+  .close-icon .bar:first-child{
+    top:10px;
+    transform-origin: top left;
+  }
+  .close-icon .bar:last-child{top:25px;transform-origin: bottom left;}
+
+  .fadded{
+    opacity: 0;
+  }
+  .r-tilted{
+    
+    rotate: 40deg;
+    width:25px !important;
+    transform: translateY(3px);
+    transform: translateX(4px);
+  }
+
+  .l-tilted{
+    
+    rotate: -40deg;
+    width:25px !important;
+    transform: translateY(-1px);
+    transform: translateX(4px);
+  }
+ 

@@ -1,0 +1,321 @@
+*{
+    margin: 0;
+}
+
+
+
+.theme5-container{
+    max-width: 500px;
+    height: 90vh;
+    overflow-y: scroll;
+    border-radius: 20px;
+    margin-left: 4rem;
+    margin-top: 1rem;
+    scrollbar-width: thin;
+    scrollbar-color: #c08aef #f1f1f1;
+}
+
+.theme5-main{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20rem;
+}
+
+.theme5-second-container{
+    /* margin-left: 20rem; */
+    margin-top: 5rem;
+}
+
+.theme5-second-container p{
+    color: #c08aef;
+    margin-top: 10px;
+    
+}
+
+.theme5-second-container img{
+    object-fit: cover;
+}
+
+.theme5-image-preview{
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
+}
+
+.theme5-header{
+    position: relative;
+    background-color: black;
+    overflow: hidden;
+}
+
+.theme5-header::after{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to bottom, transparent, #0F1C2E);
+}
+
+.theme5-image-profile{
+    object-fit: cover;
+    width: 100%;
+    height: 470px;
+    display: block;
+}
+
+.theme5-body{
+    height: 100%;
+    background: linear-gradient(to bottom, #0F1C2E, #1F3A5F, #3D5A80);
+}
+
+.theme5-paragraphs p{
+    text-align: center;
+    color: aliceblue;
+    margin-bottom: 5px;
+}
+
+.theme5-add-to-contact{
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.theme5-add-to-contact button:hover{
+    background-color: #bedbf4;
+}
+
+.theme5-add-to-contact button{
+    padding: 7px;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: #cee8ff;
+    width: 65%;
+    border-radius: 1rem;
+    color: #0F1C2E;
+    transition: 0.2s;
+}
+
+.theme5-infos-container{
+    margin-top: 30px;
+    text-align: center;
+    /* border-bottom: 1px solid whitesmoke; */
+
+}
+
+.theme5-infos-content{
+
+}
+
+.theme5-infos-options{
+    color: white;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.theme5-social-media{
+    margin-top: 40px;
+}
+
+.theme5-social-media h3{
+    text-align: center;
+    color: #cee8ff;
+}
+
+.theme5-social-links{
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    text-align: center;
+    grid-gap: 10px;
+    padding: 20px;
+}
+
+.theme5-divider {
+    display: flex;
+    justify-content: center;
+}
+
+.theme5-divider::before {
+    content: "";
+    display: block;
+    border-top: 1px solid #e0e0e0;
+    width: 70%;
+}
+
+.theme5-services-container{
+    margin-top: 40px;
+    text-align: center;
+}
+
+.theme5-services-container h3{
+    text-align: center;
+    color: #cee8ff;
+    margin-bottom: 20px;
+}
+
+.theme5-service-image{
+
+}
+
+.theme5-service-body{
+    padding: 15px;
+    color: #e0e0e0;
+}
+
+.theme5-service-body p{
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.theme5-servicename{
+    font-weight: 400 !important;
+}
+
+.theme5-service-image img{
+    border-radius: 50%;
+    object-fit: cover;
+    width: 70px;
+    height: 70px;
+}
+
+@media (max-width: 1048px) {
+    .theme5-second-container{
+        display: none;
+    }
+
+    .theme5-container{
+        max-width: 800px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .theme5-container{
+        width: 100%;
+        margin: 0;
+        height: 100%;
+        border-radius: 0px;
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* .theme5-root{
+    display: grid;
+    place-items: center ;
+    background-color: #ffffff;
+    font-family:'Courier New', Courier, monospace;
+    height: 100vh;
+}
+.theme5-card{
+    width: 400px;
+    height: 800px;
+    position: relative;
+    background-image: url(./blob-scene.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.theme5-inner-card{
+    position: absolute;
+    width: 80%;
+    height: 500px;
+    background-color: #ffffff71;
+    position: relative;
+    backdrop-filter: blur(10px);
+    left: 40px;
+    top: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.theme5-photo{
+    width: 320px;
+    height: 320px;
+    object-fit: cover;
+    border-radius: 320px;
+    position: absolute;
+    top: -160px;
+}
+.theme5-info-container{
+    width: 100%;
+    height: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.theme5-info-top{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.theme5-info-bottom{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 100%;
+    max-width: 320px;
+    padding: 10px;
+}
+.theme5-name,.theme5-societe{
+    text-transform: uppercase;
+    font-size: 20px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-top: 5px;
+    
+}
+
+.theme5-link-section-tel,.theme5-link-section-email,.theme5-link-section-website{
+    display: flex;
+
+    justify-content: flex-start;
+    align-items: center;
+
+    margin-top: 10px;
+}
+.theme5-email,.theme5-tel,.theme5-website-link{
+    margin-left: 20px;
+    font-size: 0.75rem;
+}
+
+.theme5-link-section-bottom{
+    margin-top: 20px;
+    display: grid;
+    gap: 10px 50px;
+    grid-template-columns: auto auto ;
+} */

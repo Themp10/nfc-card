@@ -1,0 +1,70 @@
+/* Modal.css */
+.Delete-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .Delete-modal-content {
+    background: #fff;
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .Delete-modal-closeIcon button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  
+  .Delete-modal-title h1 {
+    font-size: 18px;
+    margin-bottom: 20px;
+  }
+  
+  .Delete-modal-footer {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .Delete-modal-footer button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  #Delete-modal-cancelbtn {
+    background-color: #ccc;
+    color: #333;
+  }
+  
+  #Delete-modal-cancelbtn:hover {
+    background-color: #ddd;
+  }
+  
+  .Delete-modal-footer button {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  .Delete-modal-footer  button:hover {
+    background-color: #d32f2f;
+  }
+  

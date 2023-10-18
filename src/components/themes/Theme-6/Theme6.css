@@ -1,0 +1,31 @@
+.theme6-container{
+    background-color: #fffff3;
+}
+
+.theme6-uppon-header header{
+    background: linear-gradient(to right,#f7cac9, #5c5c5c);
+    color: #fffff3;
+    font-weight: 800;
+}
+
+/* .theme6-another-one-container{
+    background: linear-gradient(to right,#f7cac9, #5c5c5c);
+} */
+
+.theme6-contact-1{
+    background: linear-gradient(to right,#f7cac9, #5c5c5c);
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.theme6-second-section-container{
+    background: linear-gradient(to right,#f7cac9, #f7cac9, #5c5c5c);
+}
+
+.theme6-one-service{
+    background: linear-gradient(to right,#f7cac9, #f7cac9, #f7cac9);
+}
+
+.theme6-image-content img{
+    
+}

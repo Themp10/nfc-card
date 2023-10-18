@@ -1,0 +1,135 @@
+.theme3-container{
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    /* width: 300px; */
+}
+
+.theme3-flexed-topbar{
+    display: flex;
+    margin: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    /* background-color: aqua; */
+    padding-bottom: 20px;
+    border-bottom: 1px solid;
+    border-color: rgb(217, 223, 217);
+
+}
+
+.theme3-topbar-image img{
+    border-radius: 50%;
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
+}
+
+.theme3-topbar-paras{
+    margin-left: 20px;
+}
+
+.theme3-topbar-paras-1{
+    font-family: "sans-serif", "Montserrat";
+    font-weight: 700;
+}
+
+/* .theme3-topbar-paras-2{
+
+} */
+
+.theme3-icons-container {
+    display: flex;
+    justify-content: center;
+    margin: 0 auto;
+    /* margin-top: 20px; */
+    padding: 20px;
+    background-color: rgb(235, 234, 236);
+    width: 350px;
+    border-radius: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  }
+  
+  .theme3-icons-content {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 20px;
+    /* max-width: 500px; */
+    margin: 0 auto;
+    
+  }
+
+  .theme3-one-icon{
+    transition: 0.2s;
+    cursor: pointer;
+  }
+  .theme3-one-icon:hover{
+    scale: 1.2;
+  }
+
+  .theme3-contact-container{
+    display: flex;
+    margin-top: 30px;
+    /* background-color: bisque; */
+    padding: 20px;
+  }
+
+  .theme3-contact-content{
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 30px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .theme3-contact-1{
+    background-color: #fff;
+    margin: 0 auto;
+    text-align: center;
+    width: 90%;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+
+  }
+  
+  .theme3-services-container{
+    margin-top: 20px;
+  }
+
+  .theme3-services-content h2{
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .theme3-one-service{
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    margin-right: auto;
+    margin-left: auto;
+    align-items: center;
+    background-color: rgb(235, 234, 236);
+    box-shadow: 0 0 10px rgba(146, 140, 140, 0.2);
+    padding: 10px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+    width: 85%;
+    /* margin: 0 auto; */
+  }
+
+  .theme3-service-image img{
+    margin-left: 20px;
+    border-radius: 50%;
+  }
+
+  .theme3-service-body{
+    margin-left: 20px;
+  }
+
+  .theme3-servicename{
+    font-family: "Montserrat", "sans-serif";
+    font-weight: 800;
+  }
+

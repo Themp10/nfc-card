@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;700&display=swap");
+
+
+.wb-wcm-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	height: 80px;
+	padding: 0 2rem;
+	background-color: #D6C6E1;
+	color: #fff;
+	box-shadow: 0px 0px 50px rgba(0, 0, 0, 0.5);
+	position: fixed;
+	width: 100%;
+	z-index: 100;
+}
+
+.wb-login-btn{
+    margin-left: 5rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.wb-wcm-nav a {
+	margin: 0 1rem;
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+	transition: 0.2s;
+}
+
+.wb-wcm-nav{
+	list-style: none;
+}
+
+.wb-wcm-nav li{
+	cursor: pointer;
+
+}
+
+.wb-wcm-nav a:hover {
+	color: rgb(124, 52, 52);
+	scale: 1.1;
+}
+
+.wb-wcm-header .wb-nav-btn {
+	padding: 5px;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	outline: none;
+	color: rgb(0, 0, 0);
+	visibility: hidden;
+	opacity: 0;
+	font-size: 1.8rem;
+}
+
+.wb-wcm-header div,
+.wb-wcm-nav {
+	display: flex;
+	align-items: center;
+}
+
+@media only screen and (max-width: 1024px) {
+	.wb-wcm-header .wb-nav-btn {
+		visibility: visible;
+		opacity: 1;
+	}
+
+	.wb-wcm-header .wb-wcm-nav {
+		position: fixed;
+		top: -100vh;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1.5rem;
+		background-color: rgb(255, 255, 255);
+		z-index: 100;
+		transition: 1s;
+	}
+
+	.wb-wcm-header .wb-responsive_nav {
+		transform: translateY(100vh);
+	}
+
+	.wb-wcm-nav .wb-nav-close-btn {
+		position: absolute;
+		top: 2rem;
+		right: 2rem;
+	}
+
+	.wb-wcm-nav a {
+		font-size: 1.5rem;
+	}
+
+	.wb-login-btn{
+		margin-left: 10px;
+		color: black;
+	}
+}
