@@ -51,15 +51,15 @@ exports.createOne = async (req, res) => {
       const values = [data.fullname, data.email, hashed_password, data.image, 0, verificationToken];
     
       try {
-        await execQuery(mysql.format(query, values));
-    
+        let sqlresulat=await execQuery(mysql.format(query, values));
+        let newToken=sqlresulat.insertId+"-"+verificationToken
         const mailOptions = {
           from: 'smart21card@gmail.com',
           to: data.email,
           subject: 'Email Verification',
           // text: `Suivez ce lien pour vérifier votre email: http://ouss.sytes.net:5001/verify/${verificationToken}`,
           html: ` <p> Veuillez cliquer sur le boutton au dessous pour vérifier votre email  <br/>
-                    <button> <a href='http://ouss.sytes.net:5001/verify/${verificationToken}'> Vérifier </a> </button>
+                    <button> <a href='http://ouss.sytes.net:5001/verify/${newToken}'> Vérifier </a> </button>
                   </p> `
         };
     
@@ -103,23 +103,19 @@ exports.createOne = async (req, res) => {
 
 
   exports.verifyEmail = async (req, res) => {
+    const verificationToken = req.params.verificationToken;
 
-    console.log('verifyEmail r route appelée');
-    
-    const verificationToken = req.query.verificationToken;
+
     console.log(verificationToken)
+    let token=verificationToken.split("-");
   
-    const updateQuery = 'UPDATE users SET isEmailVerified = 1 WHERE verificationToken = ?';
-    const updateValues = [verificationToken];
-
+    const updateQuery = 'UPDATE users SET isEmailVerified = 1 WHERE id = ? and verificationToken = ? ';
+    let search_query = mysql.format(updateQuery,[token[0],token[1]])
+    console.log(search_query)
+    let results=await execQuery(search_query) 
+    console.log(results)
     try {
-      const user = await execQuery('SELECT * FROM users WHERE verificationToken = ?', [verificationToken]);
 
-      if (!user || user.length === 0) {
-        return sendResponse(res, 404, 'Utilisateur non trouvé.');
-      }
-
-      await execQuery(mysql.format(updateQuery, updateValues));
 
       return sendResponse(res, 200, 'Vérification avec succès');
     } catch (error) {

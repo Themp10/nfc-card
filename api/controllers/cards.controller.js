@@ -74,11 +74,19 @@ exports.updateOne =async  (req, res) => {
 
   
 exports.RemoveOne = async (req, res) => {
-
+  let response={}
+  // remove card
   let query = "DELETE from user_card where  id= ? "
-  const search_query = mysql.format(query,[req.params.id_card])
-  const results=await execQuery(search_query)
-  return sendResponse(res, 200, "DATA_SUCCESS", results);
+  let search_query = mysql.format(query,[req.params.id_card])
+  let results=await execQuery(search_query)
+  //remove commandes
+  response.card=results.affectedRows
+  query = "DELETE from commandes where  id_card= ? "
+  search_query = mysql.format(query,[req.params.id_card])
+  results=await execQuery(search_query)
+  response.commande=results.affectedRows
+  console.log(response)
+  return sendResponse(res, 200, "DATA_SUCCESS", response);
 
 
   };

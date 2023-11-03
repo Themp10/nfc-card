@@ -16,7 +16,6 @@ const Demandes = () => {
     try {
       const id_user = localStorage.getItem("id_user");
       const response = await get('orders/'+id_user);
-      console.log("api", response);
       const cardsData = Array.isArray(response.data) ? response.data : [response.data];
       setUserCommandes(cardsData);
       setLoading(false); 

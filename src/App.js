@@ -56,10 +56,10 @@ function App() {
               <Route path='/card/:id_card' element={<ThemeRenderer selectedImageIndex={selectedImageIndex}  />} />
               {/* <Route path='/theme_3' element={<Theme3  />} /> */}
 
-              {/* <Route
+              <Route
                   path='/verify/:verificationToken'
                   element={<EmailConfirmation/>} 
-              /> */}
+              />
 
             </Routes>
 
