@@ -34,13 +34,6 @@ app.use(middleware.reqFormatMiddleware);
 
 routes(app);
 
-
-
-
-
-
-
-
 app.get('/:id', (req, res) => {
   console.log(req.params)
 const hashValue = generateId(req.params.id);
@@ -61,72 +54,3 @@ const hashValue = generateId(req.params.id);
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-
-
-
-
-//===================================================================================================================================
-
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Error connecting to MySQL: ', err);
-//     return;
-//   }
-//   console.log('Connected to MySQL database');
-// });
-
-
-// app.post('/api/user', async (req, res) => {
-//   const userData = req.body;
-
-//   try {
-//     // Generate a hash of the ID using bcrypt
-//     const hashedId = await bcrypt.hash(userData.id, 10);
-
-//     // Store the hashed ID in the database
-//     connection.query('INSERT INTO users (id, name, email, phone) VALUES (?, ?, ?, ?)', [hashedId, userData.name, userData.email, userData.phone], (error, results) => {
-//       if (error) {
-//         console.error('Error inserting user into database: ', error);
-//         res.status(500).json({ message: 'Internal server error' });
-//         return;
-//       }
-
-//       const userId = results.insertId;
-//       res.json({ userId });
-//     });
-//   } catch (error) {
-//     console.log('Error hashing ID: ', error);
-//     res.status(500).json({ message: 'Internal server error' });
-//   }
-// });
-// app.post('/api/user', (req, res) => {
-//   const userData = req.body;
-//   connection.query('INSERT INTO users SET ?', userData, (error, results) => {
-//     if (error) {
-//       console.error('Error inserting user into database: ', error);
-//       res.status(500).json({ message: 'Internal server error' });
-//       return;
-//     }
-//     const userId = results.insertId;
-//     res.json({ userId });
-//   });
-// });
-
-
-
-// app.get('/api/user/:id', (req, res) => {
-//   const userId = req.params.id;
-//   connection.query('SELECT * FROM users WHERE id = ?', userId, (error, results) => {
-//     if (error) {
-//       console.error('Error retrieving user from database: ', error);
-//       res.status(500).json({ message: 'Internal server error' });
-//       return;
-//     }
-//     if (results.length === 0) {
-//       res.status(404).json({ message: 'User not found' });
-//       return;
-//     }
-//     const user = results[0];
-//     res.json({ user });
-//   });
-// });

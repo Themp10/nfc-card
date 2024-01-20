@@ -1,12 +1,9 @@
-import React,{Fragment,useEffect,useState} from 'react'
+import React,{useEffect,useState} from 'react'
 import "./admin2.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleUser,faChartSimple,faIdCard,faList,faRightFromBracket,faGear } from '@fortawesome/free-solid-svg-icons'
+import { faChartSimple,faIdCard,faRightFromBracket,faGear, faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 import { faMoon,faSun } from '@fortawesome/free-solid-svg-icons'
 import CloseIcon from '../reusable/CloseIcon';
-import { get, getImage } from '../../http/api';
-import nfclogoLight from "../../Assets/SmartCard_Light.png"
-import nfclogoDark from "../../Assets/SmartCard_Dark.png"
 import { useNavigate} from 'react-router-dom'
 import {deleteData} from '../../store/Store'
 
@@ -57,7 +54,7 @@ const Topbar = ({updateTitle}) => {
       }
     const handleItemClick = (event) => {
         let itemText = event.currentTarget.textContent;
-        if (itemText==""){
+        if (itemText===""){
           itemText="Mon compte"
         }
         console.log(itemText)
@@ -87,17 +84,22 @@ const Topbar = ({updateTitle}) => {
         <div className={"topbar-container "+(open?"opened-topbar":"")}>
             <div className="topbar-items">
                 <div className="topbar-item" onClick={handleItemClick}>
-                <FontAwesomeIcon icon={faChartSimple} className={'icon-topbar-item '+(title==="Tableau de bord"?"selected-icon":"")} />
-                <p className={'topbar-text '+(title==="Tableau de bord"?"selected-text":"")}>Tableau de bord</p>
+                  <FontAwesomeIcon icon={faChartSimple} className={'icon-topbar-item '+(title==="Tableau de bord"?"selected-icon":"")} />
+                  <p className={'topbar-text '+(title==="Tableau de bord"?"selected-text":"")}>Tableau de bord</p>
                 </div>
                 <div className="topbar-item" onClick={handleItemClick}>
-                <FontAwesomeIcon icon={faIdCard} className={'icon-topbar-item '+(title==="Mes cartes"?"selected-icon":"")} />
-                <p className={'topbar-text '+(title==="Mes cartes"?"selected-text":"")}>Mes cartes</p>
+                  <FontAwesomeIcon icon={faIdCard} className={'icon-topbar-item '+(title==="Mes cartes"?"selected-icon":"")} />
+                  <p className={'topbar-text '+(title==="Mes cartes"?"selected-text":"")}>Mes cartes</p>
                 </div>
                 <div className="topbar-item" onClick={handleItemClick}>
-                <FontAwesomeIcon icon={faList} className={'icon-topbar-item '+(title==="Demandes"?"selected-icon":"")} />
-                <p className={'topbar-text '+(title==="Demandes"?"selected-text":"")}>Demandes</p>
+                  <FontAwesomeIcon icon={faNoteSticky} className={'icon-topbar-item '+(title==="Notes"?"selected-icon":"")} />
+                  <p className={'topbar-text '+(title==="Notes"?"selected-text":"")}>Notes</p>
                 </div>
+                <div className="topbar-item" onClick={handleItemClick}>
+                  <FontAwesomeIcon icon={faGear} className={'icon-topbar-item '+(title==="Paramètres"?"selected-icon":"")} />
+                  <p className={'topbar-text '+(title==="Paramètres"?"selected-text":"")}>Paramètres</p>
+                </div>
+                
                 <div className="topbar-item" onClick={handleLogout} style={{ marginTop: "40px" }}>
                   <FontAwesomeIcon icon={faRightFromBracket}  className='icon-topbar-item'/>
                   <h4 className='topbar-text'>Se déconnecter</h4>
@@ -106,10 +108,13 @@ const Topbar = ({updateTitle}) => {
             <div className={"topbar-container-header " +(open?"blured-backgrounf-topbar":"")}>
             
                 <div className="topbar-container-header-title ">
-                  {/* <img src={darkMode ? nfclogoDark : nfclogoLight} width={150} /> */}
                     <h2 >{title}</h2>
                 </div>
-                <FontAwesomeIcon icon={faMoon} className='dark-mode-icon-topbar' onClick={toggleDarkMode}/>
+                {darkMode ? (
+                  <FontAwesomeIcon icon={faSun} className='dark-mode-icon-topbar' onClick={toggleDarkMode} />
+                ) : (
+                  <FontAwesomeIcon icon={faMoon} className='dark-mode-icon-topbar' onClick={toggleDarkMode} />
+                )}
                 <div className="closeIcon-container-body">
                     <CloseIcon opened={open} openSidebar={openSidebar}/>
                 </div>

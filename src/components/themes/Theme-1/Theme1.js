@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { FaEnvelope, FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaPhone, FaWhatsapp, FaYoutube } from 'react-icons/fa';
+import React, { useEffect, useState } from 'react';
+import { FaEnvelope, FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaPhone, FaWhatsapp, FaYoutube, FaReddit, FaPinterest } from 'react-icons/fa';
 import { useLocation, useParams } from 'react-router-dom';
 import { get } from '../../../http/api';
 import { generateVCard, saveVCard } from '../../VcardsGenerator/VcardsGenerator';
 import "./Theme1.css";
-
+import noImgProfile from '../../../no-image-icon-23479.png'
+import axios from 'axios';
 
 const Theme1 = () => {
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({});
     const [vcardData, setVCardData] = useState(null);
+    
+
+    const { id_card } = useParams();
+    const extractedNumber = id_card.split('-')[1];
+
+
 
     useEffect(() => {
       if (userData) {
@@ -27,20 +34,35 @@ const Theme1 = () => {
 
     const location = useLocation();
     
+    const fetchUserData = async () => {
+      try {
+        const response = await get(`cards/card/${extractedNumber}`);
+        setUserData(response.data)
+        console.log(extractedNumber);
+        setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    }
+  
     useEffect(() => {
-      let card=location.state.card
-      setUserData(card);
-      setImageUrl(`http://ouss.sytes.net:5000/api/uploads/${card.photo}`);
+      fetchUserData();
     }, []);
+    
+    // useEffect(() => {
+    //   let card = location.state?.card || JSON.parse(localStorage.getItem('selectedCard')) || {};
+    //   // let card = location.state.card
+    //   setUserData(card);
+    //   setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
+    // }, []);
 
     const fetchData = async () => {
       try {
-          let card = location.state.card
-          const id_card = card.id
-          const response = await get(`services/${id_card}`);
+          // let card = location.state.card
+          // const id_card = card.id
+          const response = await get(`services/${extractedNumber}`);
           const cardsData = Array.isArray(response.data) ? response.data : [response.data];
           setData(cardsData);
-          console.log(id_card)
           } catch (error) {
           console.error(error);
       }
@@ -51,21 +73,34 @@ const Theme1 = () => {
     }, [])
 
 
+    const handleEmailClick = () => {
+      window.location.href = `mailto:${userData.email}`;
+    };
+
+    const handlePhoneClick = () => {
+        window.location.href = `tel:${userData.phone_number}`;
+    };
+
+
+
 
     if (userData === null) {
-      return <div>Loading...</div>;
+      return <div>Un instant...</div>;
     }
   
     return (
       <div>
-        {/* <div style={{ height: "100vh", width: "250px" }}>
-          <Sidebar/>
-        </div> */}
-        <div className='theme1-container themerendererclass'>
+        <div className='theme5-container theme1-container themerendererclass'>
           <div className='theme1-content'>
             <div className='theme1-image-content'>
               <div className='theme1-user-image1'>
-                <img src={imageUrl} className='image-set' alt='User Image' width="383px"  />
+                
+                {imageUrl ? (
+                  <img src={imageUrl} className='image-set' alt='User' width="100%" />
+                ) : (
+                  <img src={noImgProfile} className='image-set' alt='No Profile Image' width="100%" />
+                )}
+                {/* <img src={imageUrl} className='image-set' alt='User' width="100%"  /> */}
                 {/* <img src={imgg} className='theme1-image-set' alt='User Image' width="300px"  /> */}
 
               </div>
@@ -90,56 +125,63 @@ const Theme1 = () => {
             </div>
             {/* <div class="divider"></div> */}
 
-                    <div className='theme5-add-to-contact'>
+                    <div className='theme1-add-to-contact'>
                         <button onClick={handleSaveClick}>
                             Ajouter aux contacts
                         </button>
                     </div>
 
             <div className='theme1-user-social-info1'>
-              {/* <div className='theme1-user-phone1'>
-                <p> <FaEnvelope size={30} className="theme1-mail-icon" /> <span className='user-data'> <a href={`mailto:${userData.email}`} className='user-data'> {userData.email} </a> </span> </p>
-              </div> */}
               {userData.email ? (
               <div className='theme1-user-phone1'>
-                <p> <FaEnvelope size={30} className="theme1-mail-icon" /> <span className='user-data'> <a href={`mailto:${userData.email}`} className='user-data'> {userData.email} </a> </span> </p>
+                <p> <FaEnvelope size={40} className="theme1-mail-icon" /> <span className='user-data'> <a href={`mailto:${userData.email}`} className='user-data'> Envoyer un e-mail </a> </span> </p>
               </div>
               ): null}
               {userData.phone_number ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaPhone size={30} className="theme1-phone-icon" /> <span className='user-data'> <a href={`tel:${userData.phone_number}`} className='user-data'> {userData.phone_number} </a> </span> </p>
+                  <p> <FaPhone size={40} className="theme1-phone-icon" /> <span className='user-data'> <a href={`tel:${userData.phone_number}`} className='user-data'> {userData.phone_number} </a> </span> </p>
                 </div>
               ): null}
 
               {userData.whatsapp ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaWhatsapp size={30} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.whatsapp}`} className='user-data'> {userData.whatsapp} </a> </span> </p>
+                  <p> <FaWhatsapp size={40} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.whatsapp}`} className='user-data'> Envoyer un message sur whatsapp </a> </span> </p>
                 </div>
               ): null}
 
               {userData.website ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaGlobe size={30} className="theme1-website-icon" /> <span className='user-data'> <a href={`${userData.website}`} className='user-data'> {userData.website} </a> </span> </p>
+                  <p> <FaGlobe size={40} className="theme1-website-icon" /> <span className='user-data'> <a href={`${userData.website}`} className='user-data'> Site web </a> </span> </p>
                 </div>
               ): null}
               {userData.facebook ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaFacebook size={30} className="theme1-facebook-icon" /> <span className='user-data'> <a href={`${userData.facebook}`} className='user-data'> {userData.facebook} </a> </span> </p>
+                  <p> <FaFacebook size={40} className="theme1-facebook-icon" /> <span className='user-data'> <a href={`${userData.facebook}`} className='user-data'> facebook </a> </span> </p>
                 </div>
               ): null}
               {userData.instagram ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaInstagram size={30} className="theme1-instagram-icon" /> <span className='user-data'> <a href={`${userData.instagram}`} className='user-data'> {userData.instagram} </a> </span> </p>
+                  <p> <FaInstagram size={40} className="theme1-instagram-icon" /> <span className='user-data'> <a href={`${userData.instagram}`} className='user-data'> instagram </a> </span> </p>
                 </div>
               ): null}
               {userData.linkedin ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaLinkedin size={30} className="theme1-linkedin-icon" /> <span className='user-data'> <a href={`${userData.linkedin}`} className='user-data'> {userData.linkedin} </a> </span> </p>
+                  <p> <FaLinkedin size={40} className="theme1-linkedin-icon" /> <span className='user-data'> <a href={`${userData.linkedin}`} className='user-data'> linkedin </a> </span> </p>
                 </div>
               ): null}
               {userData.youtube ? (
                 <div className='theme1-user-phone1'>
-                  <p> <FaYoutube size={30} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.youtube}`} className='user-data'> {userData.youtube} </a> </span> </p>
+                  <p> <FaYoutube size={40} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.youtube}`} className='user-data'> youtube </a> </span> </p>
+                </div>
+              ): null}
+              {userData.reddit ? (
+                <div className='theme1-user-phone1'>
+                  <p> <FaReddit size={40} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.reddit}`} className='user-data'> reddit </a> </span> </p>
+                </div>
+              ): null}
+              {userData.pinterrest ? (
+                <div className='theme1-user-phone1'>
+                  <p> <FaPinterest size={40} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.pinterrest}`} className='user-data'> pinterrest </a> </span> </p>
                 </div>
               ): null}
               
@@ -149,22 +191,22 @@ const Theme1 = () => {
               </button> */}
             </div>
 
-            <div className='theme4-services-container'>
-                    <div className='theme4-services-content'>
-                        <h2 style={{ borderLeft:"1px dashed", marginLeft:"45px", paddingLeft:"30px", marginBottom:"30px", marginTop:"20px" }}> Nos services </h2>
-                        {data.map((service, index) => (
-                          <div key={index} className='theme3-one-service theme4-one-service theme6-one-service theme1-one-service'>
-                              <div className='theme3-service-image'>
-                                  <img style={{ objectFit: "cover" }} src={`http://ouss.sytes.net:5000/api/uploads/${service.image}`} width={50} height={50} />
-                              </div>
-                              <div className='theme3-service-body'>
-                                  <p className='theme3-servicename'> {service.name} </p>
-                                  <p className='theme1-servicedesc'> {service.description} </p>
-                              </div>
-                          </div>
-                        ))}
+            {data.length > 0 &&(
+                    <div>
+                    <h2 style={{ borderLeft:"1px dashed", marginLeft:"45px", paddingLeft:"30px", marginBottom:"30px", marginTop:"20px", color:"black" }}> Nos services </h2>
+                    {data.map((service, index) => (
+                        <div className='theme1-one-service' key={index}>
+                            <div className='theme3-service-image'>
+                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} />
+                            </div>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {service.name} </p>
+                                <p> {service.description} </p>
+                            </div>
+                        </div>
+                    ))}
                     </div>
-            </div>
+              )}
           </div>
         </div>
       </div>

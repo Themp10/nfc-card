@@ -1,20 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './Auth.css';
 import loginLogo from "../Assets/SmartCard_Light.png"
 import { post } from '../http/api';
 import { toast, ToastContainer } from 'react-toastify';
-import ModalVerification from './ModalVerification';
-import { useParams } from 'react-router-dom';
 
 
 const Register = () => {
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  // const [verificationToken, setVerificationToken] = useState('');
-  const [modalConfirmation, setModalConfirmation] = useState(false)
-
-  const verificationToken = useParams();
-
 
   const [registerData, setRegisterData] = useState({
     fullname: '',
@@ -47,36 +38,17 @@ const Register = () => {
       }
     } catch (error) {
       console.log(error);
-      setError('une err lors de la creation d utilisateur.');
     }
   };
 
   return (
     <div className="register-page">
       <ToastContainer className="toast-container"/>
-      <img className='login-logo' src={loginLogo} width={200} />
-
-      {/* <p className='p-message-style show'
-                      style={{
-                        textAlign: "center",
-                        fontSize: "17px",
-                        backgroundColor: "#42eba7",
-                        borderRadius: "5px",
-                        marginTop: "10px",
-                        marginBottom: "20px",
-                        paddingTop: "5px",
-                        paddingBottom: "5px",
-                        color: "black",
-                        width: "420px",
-                      }}>
-              {message}
-            </p> */}
-      
+      <img className='login-logo' src={loginLogo} width={200} alt='logo' />
+  
       <form className="register-form" onSubmit={handleRegisterSubmit}>
       
         <h1> Créer votre compte </h1>
-
-            
 
             <label className='label-register' htmlFor="fullname"> Nom complet </label>
             <input
@@ -108,7 +80,6 @@ const Register = () => {
             value={registerData.password}
             onChange={handleRegisterChange}
           />
-        {/* {error && <div className="register-error-message">{error}</div>} */}
         
         <button className='register-button' type="submit">S'inscrire</button>
       </form>

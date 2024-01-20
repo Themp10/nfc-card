@@ -6,24 +6,19 @@ const { execQuery } = require("../config/db");
 const mysql = require('mysql2')
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-const mongoose = require('mongoose');
-
 const tkncontroller = require("./token.controller");
-
 const { sendResponse } = require("../functions/util");
+const moment = require('moment');
+
 
 //============================== fonction de login ==============================
 exports.login = async(req, res) => {
 
-  
   var email=req.body.data.email
   var password=req.query.password||req.body.data.password
   
-
-
   if(!email){
     return sendResponse(res,200,"MISSING_FIELDS",{})
-    //return res.status(500).send({ message: frMessages.MISSING_FIELDS });
   }
   if(!password){
     return sendResponse(res,200,"MISSING_FIELDS",{})
@@ -34,9 +29,9 @@ exports.login = async(req, res) => {
   const search_query = mysql.format(query,[email])
   const results=await execQuery(search_query)
 
-    if (!results.email) {
-        return sendResponse(res,200,"LOGIN_INCORRECT",{})
-    }
+  if (!results.email) {
+      return sendResponse(res,200,"LOGIN_INCORRECT",{})
+  }
  
     //comparaison du mot de passe saisie avec celui enregistré
     var passwordIsValid = bcrypt.compareSync(password,results.password);
@@ -44,6 +39,17 @@ exports.login = async(req, res) => {
     if (!passwordIsValid) {
       return sendResponse(res,200,"PASSWORD_INCORRECT",{})
     }
+
+    // Nombre de connexions
+    let updateLoginCountQuery = "UPDATE users SET loginCount = loginCount + 1 WHERE id = ?";
+    const updateLoginCountQueryFormatted = mysql.format(updateLoginCountQuery, [results.id]);
+    await execQuery(updateLoginCountQueryFormatted);
+
+    // derniere connexion
+    let updateLastConnectionQuery = "UPDATE users SET lastConnection = ? WHERE id = ?";
+    const lastConnectionValue = moment().format('YYYY-MM-DD HH:mm:ss');
+    const updateLastConnectionQueryFormatted = mysql.format(updateLastConnectionQuery, [lastConnectionValue, results.id]);
+    await execQuery(updateLastConnectionQueryFormatted);
 
     // on vrf si l email de l utilisateur vérifié ou non
     if (results.isEmailVerified !== 1) {
@@ -67,6 +73,7 @@ exports.login = async(req, res) => {
     return sendResponse(res,200,"CONNECTED",myToken)
 
 };
+
 
 
 //============================== fonction de password checking ==============================

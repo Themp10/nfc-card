@@ -11,9 +11,4 @@ const { authJwt }=require("../middleware")
   router.delete("/:id_card",commandes.RemoveOne);
   router.post("/send-email", commandes.sendOrderConfirmationEmail)
 
-
-  
-
-
-
-  module.exports = router;
+module.exports = router;

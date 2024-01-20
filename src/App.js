@@ -9,6 +9,7 @@ import ProtectedRoutes from './components/ProtectedRoutes';
 import Dashboard from './components/admin/Main';
 import ThemeRenderer from './components/screens/EditCardScreens/ThemeRenderer';
 import Main from "./mainwebsite/Main/Main";
+import errorImage from "./error(1).png"
 
 
 function PageNotFound() {
@@ -16,8 +17,9 @@ function PageNotFound() {
   
   
   return (
-    <div>
-        <p>404 Page not found</p>
+    <div className="notfound-container">
+      <img src={errorImage} width={200} />
+      <p> Ooops !!! Page non trouvée </p>
     </div>
   );
 }
@@ -26,7 +28,7 @@ function App() {
 
   const location = useLocation();
   // const selectedImageIndex = location?.state?.selectedImageIndex || 0;
-  const selectedImageIndex = localStorage.getItem('selectedImageIndex') || 0;
+  // const selectedImageIndex = localStorage.getItem('selectedImageIndex') || 0;
   // const selectedCardId = location?.state?.selectedCardId
 
   return (
@@ -42,7 +44,12 @@ function App() {
               <Route path="/register" element={<Register/>} />
               <Route path="/email-sent/:userEmail" element={<EmailConfirmation/>} />  
 
-            {/* protected Routes */}
+            {/* <ProtectedRoutes>
+              <Route path="/Dashboard" element={<Dashboard />} />
+
+              <Route path='/card/:id_card' element={<ThemeRenderer selectedImageIndex={selectedImageIndex} />} />
+            </ProtectedRoutes> */}
+
               <Route path="/Dashboard" element={
                             <ProtectedRoutes >
                               <Dashboard />
@@ -53,7 +60,7 @@ function App() {
               <Route path="*" element={<PageNotFound />} />
 
             {/* Theme Routes */}
-              <Route path='/card/:id_card' element={<ThemeRenderer selectedImageIndex={selectedImageIndex}  />} />
+              <Route path='/card/:id_card' element={<ThemeRenderer  />} />
               {/* <Route path='/theme_3' element={<Theme3  />} /> */}
 
               <Route

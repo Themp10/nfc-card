@@ -4,6 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Loading from '../reusable/Loading';
 import PasswordModal from './PasswordModal';
+import { toast } from 'react-toastify';
+import noImgSs from '../../no-image.png'
+
 
 const Settings = () => {
   const [loading,setLoading]=useState(true)
@@ -14,12 +17,12 @@ const Settings = () => {
 
   const handleValueChange = (e) => {
     const { name, value, files } = e.target;
-    console.log(value)
+    console.log(files)
   
     if (name === "image") {
-      // setFile(files[0]);
       const selectedFile = files[0];
       setFile(URL.createObjectURL(selectedFile));
+      console.log(selectedFile)
       setUserData({ ...userData, image: selectedFile });
     } else {
       const crState = { ...userData };
@@ -27,6 +30,9 @@ const Settings = () => {
       setUserData(crState);
     }
   };
+
+ 
+
               
   const openModalPass = () => {
     setOpenPassModal(true)
@@ -36,22 +42,18 @@ const Settings = () => {
     setOpenPassModal(false)
   }
 
-
-
-
   const editSettings = async () => {
-
-  
 
     try {
         const id_user = localStorage.getItem("id_user");
         const formData = new FormData();
-        formData.append("image", userData.image);
-        formData.append("fullname", userData.fullname);
 
- 
+        formData.append("fullname", userData.fullname);
+        formData.append("image", userData.image);
+        
 
         const response = await patch('users/user/'+id_user, {data:userData});
+        toast.success("Vos données ont été mis à jour")
         console.log(response)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -66,7 +68,12 @@ const Settings = () => {
       try {
         const id_user = localStorage.getItem("id_user");
         const response = await get('users/'+id_user);
-        const imageData = await getImage(response.data.image);
+        // const imageData = await getImage(response.data.image);
+
+        const imageData = response.data.image
+        ? await getImage(response.data.image)
+        : { url: noImgSs };
+
         setFile(imageData.url)
         setUserData(response.data);
         setLoading(false); 
@@ -87,7 +94,7 @@ const Settings = () => {
       <div className="settings-form">
         <div className="settings-data-container">
           <div className="settings-image-container">
-              <img src={file} className="settings-image" />
+              <img src={file} className="settings-image" alt='im' />
               <input type="file" name="image" id="image" accept='image/*' className="inputfile" onChange={handleValueChange}  hidden/>
               <label htmlFor="image" className="add-image-overlay">
                 <FontAwesomeIcon icon={faPlus} className='add-image-button' />

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import BasicDetails from './BasicDetails';
 import SocialLinks from './SocialLinks';
 import Templates from './Templates';
@@ -34,7 +34,7 @@ const EditCardHeader = ({editedCard,handleEditInputChange,handleEditSubmit, id_c
                 className={activeComponent === 'SocialLinks' ? 'active' : ''}
                 onClick={() => handleButtonClick('SocialLinks')}
             >
-                Liens sociaux - Lien site web
+                Liens sociaux
             </button>
             <button
                 className={activeComponent === 'Services' ? 'active' : ''}

@@ -15,4 +15,5 @@ const { authJwt } = require("../middleware");
   router.patch("/updatepassword", controller.updatePassword)
   router.get("/:id_user",authJwt.verifyToken,controller.verifyToken);
 
+
 module.exports = router;

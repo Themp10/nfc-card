@@ -1,36 +1,34 @@
 import React, { useEffect } from 'react'
 import { del, get } from '../../../http/api'
-import axios from 'axios';
 import { useState } from 'react';
 import DataTable from 'react-data-table-component';
 import ModalServices from './ModalServices';
 import { FaTrash } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import Loading from '../../reusable/Loading';
 
 function NoDataComp() {
-  return <div> Vous n avez pas encore de services a afficher </div>;
+  return <div> Vous n'avez pas encore de services à afficher </div>;
 };
 
 const Services = ({id_card}) => {
 
   const [data, setData] = useState([])
   const [modalServices, setModalServices] = useState(false);
-  const [maxServicesCount, setMaxServicesCount] = useState(4);
+
+  const [isLoading, setIsLoading] = useState(true)
+
 
 
   const handleAddService = () => {
     setModalServices(true);
-
-    // if (maxServicesCount > 0) {
-    // } else {
-    //   alert('Services maximum atteint pour cette carte.');
-    // }
   };
 
 
   const handleDeleteService = async (id) => {
     try {
-      const response = await del(`services/${id}`);
+      const id_user = localStorage.getItem('id_user')
+      const response = await del(`services/${id_user}/${id}`, { id_user: id_user });
       toast.success("Le service a été bien supprimé")
       console.log(response)
       fetchData();
@@ -43,10 +41,10 @@ const Services = ({id_card}) => {
     const fetchData = async () => {
       try {
         const response = await get(`services/${id_card}`);
-        setData(response.data);
-        
-        const remainingCount = 4 - response.data.length;
-        setMaxServicesCount(remainingCount);
+        const servicesData = Array.isArray(response.data) ? response.data : [response.data];
+        setData(servicesData);
+        console.log(response.data)
+        setIsLoading(false)
       } catch (error) {
         console.error(error);
       }
@@ -54,7 +52,7 @@ const Services = ({id_card}) => {
   
   useEffect(() => {
     fetchData();
-  }, [])
+  },[modalServices])
 
     const updateData = (newService) => {
       setData((prevData) => [...prevData, newService]);
@@ -63,7 +61,7 @@ const Services = ({id_card}) => {
     const columns = [
       {
         name: "Nom du service",
-        selector: item => item.name
+        selector: item => item.name,
       },
       {
         name: "Description du service",
@@ -79,25 +77,49 @@ const Services = ({id_card}) => {
       }
     ]
 
+    const customStyles = {
+      rows: {
+        style: {
+          backgroundColor: `var(--bg-300)`,
+          color: `var(--text-100)`
+        },
+      },
+      headCells: {
+        style: {
+          backgroundColor: `var(--bg-300)`,
+          color: `var(--text-100)`
+        },
+      },
+    };
 
-    const customTitle = (
-      <div className='services-react-data-table'>
-        <h3> Liste des services ajoutés </h3>
-            <button onClick={() => handleAddService()}> Ajouter un service </button>
-        </div>
-    );
+    
+    // const customTitle = (
+    //   <div className='services-react-data-table'>
+    //         <button onClick={() => handleAddService()}> Ajouter un service </button>
+    //     </div>
+    // );
+
+  
 
 
   return (
     <div className='services-card'>
         <div className='services-card-body'>
-          {/* <h2> Liste des services ajoutés </h2> */}
-          <DataTable
-            title={customTitle}
-            columns={columns}
-            data={data}
-            noDataComponent={<NoDataComp/>}
-          />
+          <h2> Liste des services ajoutés </h2>
+          <div className='services-react-data-table'>
+            <button onClick={() => handleAddService()}> Ajouter un service </button>
+        </div>
+          {isLoading ?
+            <Loading/> 
+            :
+            <DataTable
+              // title={customTitle}
+              columns={columns}
+              data={data}
+              noDataComponent={<NoDataComp/>}
+              customStyles={customStyles}
+            />
+          }
         </div>
 
         {modalServices && <ModalServices updateData={updateData} setModalServices={setModalServices} id_card={id_card} />}

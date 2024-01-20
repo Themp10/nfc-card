@@ -15,7 +15,9 @@
     font-size: 16px;
     cursor: pointer;
     font-family: "Montserrat", "sans-serif";
-    width: 34%;
+    width: 25%;
+    background-color: var(--bg-300);
+    color: var(--text-100);
   }
   
   .edit-card-header-content button.active {
@@ -66,16 +68,18 @@
   
   .basic-details-input {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    /* border: 1px solid #ccc; */
+    border: none;
+    border-radius: 8px;
     margin-bottom: 10px;
     margin-top: 5px;
     width: 100%;
+    background-color: var(--bg-200);
+    color: var(--text-100);
+
   }
   
   .basic-details-input-row {
-    /* display: flex; */
-    /* justify-content: space-between; */
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 3%;
@@ -90,7 +94,6 @@
   
   .basic-details-buttons-flex {
     display: flex;
-    /* margin: 0 auto; */
     gap: 20px;
     margin-top: 20px;
   }
@@ -163,8 +166,9 @@
 }
 
 .templates-form-group{
-  font-size: .875rem;
+  font-size: 18px;
   margin-bottom: .5rem;
+  font-weight: bold;
 }
 
 .vcard-template{
@@ -172,7 +176,7 @@
 }
 
 .templates-row{
-
+  gap: 5px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -187,7 +191,7 @@
 }
 
 .templates-radio{
-  background-color: #fff;
+  /* background-color: #fff; */
   border: 1px solid #dee2e6;
   border-radius: .313rem;
   padding: .25rem;
@@ -216,7 +220,8 @@
 
 
 .social-links-card{
-  background-color: #fff;
+  background-color: var(--bg-300);
+  /* background-color: #fff; */
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
@@ -228,7 +233,7 @@
   grid-gap: 10px;
 }
 
-@media only screen and (max-width: 798px) {
+@media only screen and (max-width: 900px) {
   .social-links-card-body{
     padding: 2.5rem;
     display: grid;
@@ -239,11 +244,17 @@
   .edit-card-header-content button{
     width: 75%;
   }
+
+  .settings-image-container{
+    max-width: 200px;
+    max-height: 200px;
+  }
 }
 
 .social-links-row-added{
   display: flex;
-  gap: 10%;
+  gap: 5%;
+  align-items: center;
 }
 
 .social-links-icon{
@@ -265,10 +276,13 @@
 .social-links-form-controller{
   appearance: none;
   background-clip: padding-box;
-  background-color: #fff;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  color: #6c757d;
+  /* background-color: #fff; */
+  background-color: var(--bg-200);
+  color: var(--text-100);
+  /* border: 1px solid #ced4da; */
+  border: none;
+  border-radius: 8px;
+  /* color: #6c757d; */
   display: block;
   font-size: 15px;
   font-weight: 400;
@@ -359,7 +373,8 @@
 .services-card{
   word-wrap: break-word;
   background-clip: border-box;
-  background-color: #fff;
+  /* background-color: #fff; */
+  background-color: var(--bg-300);
   border: 0 solid rgba(6,9,23,.125);
   border-radius: 5px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -370,22 +385,15 @@
   padding: 20px;
 }
 
-/* .services-card {
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin: 20px 0;
-} */
+
 
 .services-card-body {
   width: 100%;
-  /* max-width: 400px; */
-  /* margin: 0 auto; */
 }
 
-.services-card-body h3{
+.services-card-body h2{
   text-align: center;
+  color: var(--text-100);
 }
 
 .add-service-button {
@@ -398,8 +406,6 @@
   cursor: pointer;
   transition: 0.3s;
   margin-bottom: 20px;
-  /* display: flex; */
-  /* margin: 0 auto; */
 }
 
 .cancel-service-button{
@@ -417,7 +423,6 @@
 .delete-service-icon{
   cursor: pointer;
   display: flex;
-  margin: 0 auto;
 }
 
 .add-service-button:hover {
@@ -435,6 +440,8 @@
   border-radius: 4px;
   font-size: 16px;
   box-sizing: border-box;
+  background-color: var(--bg-200);
+  color: var(--text-100);
 }
 
 .add-service-description {
@@ -464,10 +471,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 100;
 }
 
 .full-screen-services-modal {
-  background-color: white;
+  background-color: var(--bg-300);
   border-radius: 10px;
   padding: 20px;
   width: 80%;

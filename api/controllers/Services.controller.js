@@ -14,17 +14,17 @@ exports.findOne = async (req, res) => {
 
   };
 
-  exports.countServices = async (req, res) => {
-    try {
-      const id_user = req.params.id_user;
-      const query = 'SELECT COUNT(*) as count FROM services WHERE id_user = ?';
-      const results = await db.query(query, [id_user]);
-      return res.json({ count: results[0].count });
-    } catch (error) {
-      console.error('Error fetching services count:', error);
-      return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
-    }
-  }
+  // exports.countServices = async (req, res) => {
+  //   try {
+  //     const id_user = req.params.id_user;
+  //     const query = 'SELECT COUNT(*) as count FROM services WHERE id_user = ?';
+  //     const results = await db.query(query, [id_user]);
+  //     return res.json({ count: results[0].count });
+  //   } catch (error) {
+  //     console.error('Error fetching services count:', error);
+  //     return res.status(500).json({ error: 'INTERNAL_SERVER_ERROR' });
+  //   }
+  // }
 
   
 
@@ -37,7 +37,12 @@ exports.createOne = async (req,res) => {
       const values = [data.id_card, data.id_user, data.name, data.description, image.filename];
       const search_query = mysql.format(query, values);
       const results = await execQuery(search_query);
-      return sendResponse(res, 200, 'SERVICE_CREATED', results);
+      const responseData = { id_user: data.id_user, results };
+      
+      const updateCountQuery = 'UPDATE users SET services_count = services_count + 1 WHERE id = ?';
+      await execQuery(mysql.format(updateCountQuery, [data.id_user]));
+      
+      return sendResponse(res, 200, 'SERVICE_CREATED', responseData);
     } catch (error) {
       console.error('Error creating service:', error);
       return sendResponse(res, 500, 'ERROR_CREATING_SERVICE', null);
@@ -67,13 +72,45 @@ exports.updateOne =async  (req, res) => {
 
   };
 
+
   
 exports.RemoveOne = async (req, res) => {
 
-  let query = "DELETE from services where  id= ? "
+  const id_user = req.params.id_user;
+  console.log('req.ssss', id_user);
+
+  let query = "DELETE from services where id= ? "
   const search_query = mysql.format(query,[req.params.id_card])
   const results=await execQuery(search_query)
+
+  const updateCountQuery = 'UPDATE users SET services_count = services_count - 1 WHERE id = ?';
+  const updateCountResults = await execQuery(mysql.format(updateCountQuery, [id_user]));
+
+  if (updateCountResults.affectedRows !== 1) {
+    console.log('number of rows not affected');
+  }
+
+
   return sendResponse(res, 200, "DATA_SUCCESS", results);
 
 
   };
+
+
+  // exports.countServicesForCard = async (req, res) => {
+  //   const id_user = req.params.id_user;
+  
+  //   try {
+  //     const countServicesQuery = 'SELECT COUNT(*) as serviceCount FROM services WHERE id_user = ?';
+  //     console.log('Query:', mysql.format(countServicesQuery, [id_user]));
+  //     const countServicesResults = await execQuery(mysql.format(countServicesQuery, [id_user]));
+  //     const serviceCount = countServicesResults[0].serviceCount;
+  
+  //     return sendResponse(res, 200, "SERVICE_COUNT_SUCCESS", { serviceCount });
+  //   } catch (error) {
+  //     console.error('Error counting services for the user:', error);
+  //     return sendResponse(res, 500, "ERROR_COUNTING_SERVICES");
+  //   }
+  // };
+  
+

@@ -11,15 +11,15 @@
       width: 500px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #fff;
+      background-color: var(--bg-300);
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       border-radius: 5px;
   }
 
   .new-card-container label{
     display: block;
-            font-weight: bold;
-            margin-bottom: 5px;
+    font-weight: bold;
+    margin-bottom: 5px;
   }
 
   .new-card-container input[type="text"]{
@@ -127,7 +127,7 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(255, 255, 255, 0.7);
+    /* background-color: rgba(255, 255, 255, 0.7); */
     border-radius: 50%;
     padding: 5px;
     cursor: pointer;
@@ -188,9 +188,15 @@
     box-sizing: border-box;
   }
 
+  .disabled {
+    opacity: 0.5;
+    /* cursor: not-allowed; */
+    pointer-events: none;
+  }
+
   .flexedddddddd{
     display: flex;
-    gap: 2%;
+    gap: 4%;
   }
 
   .active-card-grid-container{

@@ -1,5 +1,4 @@
 import React from 'react'
-// import './Modal.css'
 
 const ModalVerification = () => {
 
@@ -16,13 +15,6 @@ const ModalVerification = () => {
         <div>
         <input placeholder='Code de vérification' />
         </div>
-        {/* <div className="Delete-modal-footer">
-          <button
-            id="Delete-modal-cancelbtn"
-          >
-            Annuler
-          </button>
-        </div> */}
       </div>
     </div>
   )

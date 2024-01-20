@@ -10,7 +10,7 @@ import 'animate.css';
 const WelcomeSection = () => {
   const navigate = useNavigate();
   const navToRegister = () => {
-    navigate('/register')
+    navigate('/login')
   }
   return (
     <>

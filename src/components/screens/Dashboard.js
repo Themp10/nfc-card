@@ -1,46 +1,34 @@
 import React, { useState,useEffect } from 'react'
-import { get, getImage, patch, del } from '../../http/api';
-
-import logo from '../../no-image.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import Loading from '../reusable/Loading';
-// import { useCardContext } from '../../CardContext';
-import { FaUser, FaQuestionCircle, FaBriefcase  } from 'react-icons/fa';
+import { get } from '../../http/api';
+import Elips from '../reusable/Elips';
+import { FaUser, FaBriefcase, FaLink  } from 'react-icons/fa';
 
 
 const Dashboard = () => {
 
-  const [userCards, setUserCards] = useState([]);
-  const [activeCardCount, setActiveCardCount] = useState(0);
-  const [orderCount, setOrderCount] = useState(0);
-  const [servicesCount, setServicesCount] = useState(0)
+  const [servicesCount, setServicesCount] = useState([])
+  const [counts, setCounts] = useState([]);
+  const [loading, setLoading] = useState(true)
+  const [lastConnection, setLastConnection] = useState(null)
 
-  const fetchCardData = async() => {
-    try {
-      const id_user = localStorage.getItem("id_user");
-      const response = await get('cards/'+id_user);
-      setUserCards(response.data);
 
-      const activeCardsCount = response.data.filter(card => card.status === 1).length;
-      const orderCount = response.data.filter(card => card.order === 1).length;
-      // const servicesCount = await get('count/' + id_user);
-
-      setActiveCardCount(activeCardsCount);
-      setOrderCount(orderCount);
-      // setServicesCount(servicesCount);
-
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    }
-  }
+  
 
   useEffect(() => {
-    fetchCardData();
-  },[])
-
-  // const { activeCardCount } = useCardContext();
-
+    const countsFunc = async() => {
+      try {
+        const id_user = localStorage.getItem("id_user");
+        const response = await get('users/'+id_user);
+        setCounts(response.data);
+        setLastConnection(response.data.lastConnection)
+        setServicesCount(response.data.services_count);
+        setLoading(false)
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    }
+    countsFunc();
+ },[])
 
 
   return (
@@ -52,20 +40,13 @@ const Dashboard = () => {
               <FaUser size={50}/>
             </div>
             <div className='dashboard-activecards-content'>
-              <h2> {activeCardCount} </h2>
-              <h3> Cartes actives </h3>
-            </div>
-          </div>
-        </div>
-
-        <div className='active-card-grid-container'>
-          <div className='active-card-grouped'>
-            <div className='dashboard-icon-content'>
-              <FaQuestionCircle size={50}/>
-            </div>
-            <div className='dashboard-activecards-content'>
-              <h2> {orderCount} </h2>
-              <h3> Cartes demandées </h3>
+              {
+                loading ?
+                  <Elips/>
+                :
+                  <h2> {counts.card_count} </h2>
+              }
+              <h3> Cartes ajoutées </h3>
             </div>
           </div>
         </div>
@@ -76,13 +57,37 @@ const Dashboard = () => {
               <FaBriefcase size={50}/>
             </div>
             <div className='dashboard-activecards-content'>
-              {/* <h2> {servicesCount} </h2> */}
+            {
+                loading ?
+                  <Elips/>
+                :
+                  <h2> {servicesCount} </h2>
+              }
               <h3> Services ajoutés </h3>
             </div>
           </div>
         </div>
+
+        <div className='active-card-grid-container'>
+          <div className='active-card-grouped'>
+            <div className='dashboard-icon-content'>
+              <FaLink size={50}/>
+            </div>
+            <div className='dashboard-activecards-content'>
+              {
+                loading ?
+                  <Elips/>
+                :
+                  <h2> {counts.loginCount} </h2>
+              }
+              <h3> Connexions </h3>
+            </div>
+          </div>
+        </div>
+      </div> <br/>
+      <div style={{marginTop: "40px", fontSize:"18.5px"}}>
+        Dernière connexion : {new Date(lastConnection).toLocaleString()}     
       </div>
-      {/* <h2> {activeCardCount} </h2> */}
     </div>
   )
 }

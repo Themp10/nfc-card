@@ -24,7 +24,6 @@ var cookies = {};
     return sendResponse(res,200,"TOKEN_REQUIRED",{})
   }
 // récupération du id_user
-  //var id_user = req.query.id_user || req.body.id_user || req.headers["x-access-id_user"]||decodeURIComponent(cookies["id_user"]);
   var id_user =  req.headers["x-access-id_user"];
   if (!id_user) {
     return sendResponse(res,200,"ID_USER_REQUIRED",{})

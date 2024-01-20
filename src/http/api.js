@@ -1,6 +1,6 @@
 
 
-const BASE_URL = 'http://ouss.sytes.net:5000/api'; 
+const BASE_URL = 'http://localhost:5000/api'; 
 
 
 const handleResponse = async (response) => {

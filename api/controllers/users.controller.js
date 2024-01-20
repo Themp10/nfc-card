@@ -5,6 +5,7 @@ const mysql = require('mysql2')
 var bcrypt = require("bcryptjs");
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
+const fs = require('fs').promises;
 
 
 const transporter = nodemailer.createTransport({
@@ -35,7 +36,9 @@ exports.findOne = async (req, res) => {
     let query = "Select * from users where id= ? "
     const search_query = mysql.format(query,[req.params.id_user])
     const results=await execQuery(search_query)
+    
     return sendResponse(res, 200, "DATA_SUCCESS", results);
+    
   
     };
 
@@ -57,9 +60,8 @@ exports.createOne = async (req, res) => {
           from: 'smart21card@gmail.com',
           to: data.email,
           subject: 'Email Verification',
-          // text: `Suivez ce lien pour vérifier votre email: http://ouss.sytes.net:5001/verify/${verificationToken}`,
           html: ` <p> Veuillez cliquer sur le boutton au dessous pour vérifier votre email  <br/>
-                    <button> <a href='http://ouss.sytes.net:5001/verify/${newToken}'> Vérifier </a> </button>
+                    <button> <a href='http://localhost:5001/verify/${newToken}'> Vérifier </a> </button>
                   </p> `
         };
     
@@ -88,17 +90,18 @@ exports.createOne = async (req, res) => {
    
   };
 
-  exports.updateOne = async (req, res) => {
+
+exports.updateOne = async (req, res) => {
     const data=req.body.data
     const id_user = req.params.id_user;
 
-    let query = 'UPDATE users set `fullname`=?,`email`=?,`image`=? where id=?';
-    // const hashed_password = bcrypt.hashSync(newPassword, 8)
-    const values = [data.fullname, data.email, data.image, id_user];
+    let query = 'UPDATE users set `fullname`=?,`image`=? where id=?';
+    const values = [data.fullname, data.image, id_user];
     let search_query = mysql.format(query,values)
     let results=await execQuery(search_query) 
-    return sendResponse(res, 200, "DATA_SUCCESS", results);
+    return sendResponse(res, 200, "DATA_SUCCESS", results); 
   };
+
 
 
 
@@ -123,10 +126,6 @@ exports.createOne = async (req, res) => {
       return sendResponse(res, 500, 'Error verifying email.');
     }
   };
-
-
- 
-
 
 
   exports.RemoveOne = (req, res) => {

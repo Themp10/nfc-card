@@ -53,10 +53,8 @@
   cursor: pointer;
   font-size: 16px;
   transition: 0.2s;
+  margin-top: 10px;
 }
-
-
-
 
 .login-button:hover{
   background-color: #ac8ac4;
@@ -112,8 +110,6 @@
 
 
 /* Register style */
-
-
 .register-page {
   display: flex;
   flex-direction: column;
@@ -210,9 +206,7 @@
 }
 
 
-
 /* Email confirmation style */
-
 .emailconfirmation-container{
   text-align: center;
   position: absolute;
