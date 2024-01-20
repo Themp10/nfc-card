@@ -1,41 +1,71 @@
 import React from 'react'
 import "./Edition.css"
-import { useState,useEffect } from 'react';
+import { useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { useState } from 'react';
+import { getImage, get } from '../../../http/api';
+import { useLocation } from 'react-router-dom';
+import noImgSs from '../../../no-image.png'
+
+
 
 const BasicDetails = ({editedCard,handleEditInputChange,handleEditSubmit, handleHideEditCard}) => {
 
-    // const [userInput, setUserInput] = useState('');
-    // const fixedText = 'https://ouss.sytes.net/';
-    // const handleInputChange = (event) => {
-    //     const { value } = event.target;
-    //     if (value.startsWith(fixedText)) {
-    //         setUserInput(value);
-    //       } else {
-    //         setUserInput(fixedText + value);
-    //       }
-    //   };
+    // const [file, setFile] = useState("");
+    const [imageUrl, setImageUrl] = useState('');
+
+    const location = useLocation();
+    
+
+    const fetchPhoto = async () => {
+        try {
+        let card = location.state?.card || JSON.parse(localStorage.getItem('basic')) || {};
+        const id_card = card.id
+        const response = await get(`cards/card/${id_card}`);
+        // setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
+        setImageUrl(response.data.photo ? `http://localhost:5000/api/uploads/${response.data.photo}` : noImgSs)
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+        }
+      }
+
+      useEffect(() => {
+        fetchPhoto();
+      }, [])
+
+
 
     const cancelTheModal = () => {
         handleHideEditCard(false)
     }
 
     useEffect(() => {
-
-        console.log("basic detzild : ",editedCard)
+        localStorage.setItem('basic', JSON.stringify(editedCard));
+        console.log("basic details : ", editedCard)
     },[editedCard])
+
+
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //       try {
+    //         const id_user = localStorage.getItem("id_user");
+    //         const response = await get('cards/'+id_user);
+    //         const imageData = await getImage(response.data.photo);
+    //         setFile(imageData.url)
+    //       } catch (error) {
+    //         console.error('Error fetching data:', error);
+    //       }
+    //     };
+      
+    //     fetchData(); 
+      
+    //   }, []);
 
   return (
     <div className='basic-details-container'>
         <div className='basic-details-content'>
             <div className='basic-details-form'>
-                {/* <label className="url-alias-label"> Url d'alias </label>
-                <input
-                    value={userInput}
-                    onChange={handleInputChange}
-                    placeholder={fixedText}
-                    className='url-alias-input'
-                    type='text'
-                /> */}
                <div className="basic-details-input-row">
                     <div>
                         <label className='basic-details-label'>Nom de la carte</label> <br/>
@@ -45,9 +75,20 @@ const BasicDetails = ({editedCard,handleEditInputChange,handleEditSubmit, handle
                         <label className='basic-details-label'>Occupation</label> <br/>
                         <input className='basic-details-input' type="text" placeholder="Occupation" name='fonction' value={editedCard.fonction} onChange={handleEditInputChange} />
                     </div>
+                    {/* <div>
+                        <label className='basic-details-label'>Photo</label> <br />
+                        <input
+                            className='basic-details-input'
+                            type='file'
+                            accept='image/*'
+                            name='photo'
+                            onChange={handleEditInputChange}
+                        />
+                    </div> */}
+                    
                 </div>
 
-                <h2 className='basic-details-h2'> Détailles de la carte </h2> 
+                <h2 className='basic-details-h2'> Détails de la carte </h2> 
 
                 <div className="basic-details-input-row">
                     <div>
@@ -70,13 +111,20 @@ const BasicDetails = ({editedCard,handleEditInputChange,handleEditSubmit, handle
                     </div>
                 </div>
                 <div className="basic-details-input-row">
-                    {/* <div>
-                        <label className='basic-details-label'>Date de naissance</label> <br/>
-                        <input className='basic-details-input' type="date" name='naissance' value={editedCard.naissance}  onChange={handleEditInputChange} />
-                    </div> */}
                     <div>
                         <label className='basic-details-label'>Société</label> <br/>
                         <input className='basic-details-input' type="text" placeholder="Société" name='societe' value={editedCard.societe} onChange={handleEditInputChange} />
+                    </div>
+                    
+                </div>
+                <div>
+                    <label className='basic-details-label'>Image de la carte</label> <br/>
+                    <div className="settings-image-container" style={{ maxWidth: '150px', maxHeight: '150px', marginTop: '10px' }}>
+                        <img src={imageUrl} className="settings-image" alt='im' />
+                        <input type="file" name="image" id="image" accept='image/*' className="inputfile"  hidden/>
+                        <label htmlFor="image" className="add-image-overlay">
+                            <FontAwesomeIcon icon={faPlus} className='add-image-button' />
+                        </label>
                     </div>
                 </div>
                 <div className='basic-details-buttons-flex'>
