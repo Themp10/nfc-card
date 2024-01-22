@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { FaEnvelope, FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaPhone, FaWhatsapp, FaYoutube, FaReddit, FaPinterest } from 'react-icons/fa';
-import { useLocation, useParams } from 'react-router-dom';
-import { get } from '../../../http/api';
+import { useParams } from 'react-router-dom';
 import { generateVCard, saveVCard } from '../../VcardsGenerator/VcardsGenerator';
 import "./Theme1.css";
 import noImgProfile from '../../../no-image-icon-23479.png'
-import axios from 'axios';
+import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks'
+
 
 const Theme1 = () => {
-    const [userData, setUserData] = useState({});
     const [vcardData, setVCardData] = useState(null);
     
 
     const { id_card } = useParams();
     const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
 
 
 
@@ -27,60 +29,6 @@ const Theme1 = () => {
     const handleSaveClick = () => {
       saveVCard(vcardData, userData);
     };
-
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([])
-
-
-    const location = useLocation();
-    
-    const fetchUserData = async () => {
-      try {
-        const response = await get(`cards/card/${extractedNumber}`);
-        setUserData(response.data)
-        console.log(extractedNumber);
-        setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    }
-  
-    useEffect(() => {
-      fetchUserData();
-    }, []);
-    
-    // useEffect(() => {
-    //   let card = location.state?.card || JSON.parse(localStorage.getItem('selectedCard')) || {};
-    //   // let card = location.state.card
-    //   setUserData(card);
-    //   setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
-    // }, []);
-
-    const fetchData = async () => {
-      try {
-          // let card = location.state.card
-          // const id_card = card.id
-          const response = await get(`services/${extractedNumber}`);
-          const cardsData = Array.isArray(response.data) ? response.data : [response.data];
-          setData(cardsData);
-          } catch (error) {
-          console.error(error);
-      }
-    };
-
-    useEffect(() => {
-      fetchData();
-    }, [])
-
-
-    const handleEmailClick = () => {
-      window.location.href = `mailto:${userData.email}`;
-    };
-
-    const handlePhoneClick = () => {
-        window.location.href = `tel:${userData.phone_number}`;
-    };
-
 
 
 
@@ -98,11 +46,8 @@ const Theme1 = () => {
                 {imageUrl ? (
                   <img src={imageUrl} className='image-set' alt='User' width="100%" />
                 ) : (
-                  <img src={noImgProfile} className='image-set' alt='No Profile Image' width="100%" />
+                  <img src={noImgProfile} className='image-set' alt='NoProfile' width="100%" />
                 )}
-                {/* <img src={imageUrl} className='image-set' alt='User' width="100%"  /> */}
-                {/* <img src={imgg} className='theme1-image-set' alt='User Image' width="300px"  /> */}
-
               </div>
               <div className="lcFudP">
                 <svg className="card-wavestyled__Wave-app__sc-4t6hon-0 eVOubz WaveHeaderstyled__Divider-app__sc-1ootntz-2 kvRDlA" preserveAspectRatio="xMinYMax meet" viewBox="0 0 246 57" xmlns="http://www.w3.org/2000/svg">
@@ -117,13 +62,12 @@ const Theme1 = () => {
                 </div>
               </div>
             </div>
-            {/* <div class="divider"></div> */}
+
             <div className='theme1-use-infos1'>
               <p className='theme1-full-name1'> {userData.full_name} </p>
               <p className='theme1-fonction1'> {userData.fonction} </p>
               <p className='theme1-societe1'> {userData.societe} </p>
             </div>
-            {/* <div class="divider"></div> */}
 
                     <div className='theme1-add-to-contact'>
                         <button onClick={handleSaveClick}>
@@ -184,20 +128,30 @@ const Theme1 = () => {
                   <p> <FaPinterest size={40} className="theme1-youtube-icon" /> <span className='user-data'> <a href={`${userData.pinterrest}`} className='user-data'> pinterrest </a> </span> </p>
                 </div>
               ): null}
-              
-
-              {/* <button className='send-data'>
-                Envoyer
-              </button> */}
             </div>
+
+            {galleryData.length > 0 &&(
+                <div className='images-theme-gallery'>
+                    <h2 style={{ borderLeft:"1px dashed", marginLeft:"45px", paddingLeft:"30px", marginBottom:"30px", marginTop:"20px", color:"black" }}> Photos </h2>
+
+                    <div className='flexed-images-theme'>
+                        {galleryData.map((galerie, index) => (
+                            <div className='images-theme-content' key={index}>
+                                <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
 
             {data.length > 0 &&(
                     <div>
-                    <h2 style={{ borderLeft:"1px dashed", marginLeft:"45px", paddingLeft:"30px", marginBottom:"30px", marginTop:"20px", color:"black" }}> Nos services </h2>
+                    <h2 style={{ borderLeft:"1px dashed", marginLeft:"45px", paddingLeft:"30px", marginBottom:"30px", marginTop:"20px", color:"black" }}> Services </h2>
                     {data.map((service, index) => (
                         <div className='theme1-one-service' key={index}>
                             <div className='theme3-service-image'>
-                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} />
+                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} alt='' />
                             </div>
                             <div className='theme1-service-body'>
                                 <p className='theme3-servicename'> {service.name} </p>

@@ -155,4 +155,31 @@
     scale: 1.05;
   }
 
+  .images-theme-gallery{
+    /* margin: 40px;
+    overflow-x: auto; */
+  }
+
+  .flexed-images-theme{
+    display: flex;
+    gap: 5%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    flex-wrap: nowrap;
+    margin: 30px;
+    overflow-x: auto;
+  }
+
+  .images-theme-content{
+    flex: 0 0 auto;
+  }
+
+  .gallery-theme-image{
+    width: 250px;
+    height: 270px;
+    object-fit: cover;
+    border-radius: 7px;
+    max-width: 100%;
+  }
+
 

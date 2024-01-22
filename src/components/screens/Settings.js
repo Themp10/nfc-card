@@ -15,25 +15,40 @@ const Settings = () => {
   const [openPassModal, setOpenPassModal] = useState(false)
 
 
+
   const handleValueChange = (e) => {
-    const { name, value, files } = e.target;
-    console.log(files)
-  
-    if (name === "image") {
-      const selectedFile = files[0];
-      setFile(URL.createObjectURL(selectedFile));
-      console.log(selectedFile)
-      setUserData({ ...userData, image: selectedFile });
+    const file = e.target
+    console.log('haaa', file)
+    if (e.target.name === 'image') {
+      setUserData({
+        ...userData,
+        [e.target.name]: e.target.files[0],
+      });
     } else {
-      const crState = { ...userData };
-      crState[name] = value;
-      setUserData(crState);
+      setUserData({
+        ...userData,
+        [e.target.name]: e.target.value,
+      });
     }
   };
 
- 
 
-              
+  // const handleValueChange = (e) => {
+  //   const { name, value, files } = e.target;
+  //   console.log(files)
+  
+  //   if (name === "image") {
+  //     const selectedFile = files[0];
+  //     setFile(URL.createObjectURL(selectedFile));
+  //     console.log(selectedFile)
+  //     setUserData({ ...userData, image: selectedFile });
+  //   } else {
+  //     const crState = { ...userData };
+  //     crState[name] = value;
+  //     setUserData(crState);
+  //   }
+  // };
+
   const openModalPass = () => {
     setOpenPassModal(true)
   }

@@ -1,23 +1,21 @@
 import React from 'react'
 import "./Theme2.css"
 import { FaEnvelope, FaPhone, FaGlobe, FaFacebook, FaLinkedin, FaYoutube, FaInstagram, FaPinterest, FaTiktok, FaReddit, FaLocationArrow } from 'react-icons/fa';
-import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useParams, useLocation } from 'react-router-dom';
-import image from "../../../blob-scene.png"
-import { get } from "../../../http/api"
+import { useParams } from 'react-router-dom';
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
+import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks'
+
 
 
 
 const Theme2 = () => {
-    const [userData, setUserData] = useState(null);
-    const { rndId } = useParams();
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([]);
 
     const { id_card } = useParams();
     const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
 
     const [vcardData, setVCardData] = useState(null);
 
@@ -31,52 +29,6 @@ const Theme2 = () => {
     const handleSaveClick = () => {
       saveVCard(vcardData, userData);
     };
-
-    const location = useLocation();
-
-    const fetchUserData = async () => {
-      try {
-        const response = await get(`cards/card/${extractedNumber}`);
-        setUserData(response.data)
-        console.log(extractedNumber);
-        setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    }
-  
-    useEffect(() => {
-      fetchUserData();
-    }, []);
-
-
-    const fetchData = async () => {
-      try {
-          // const id_card = localStorage.getItem("id_card")
-          // let card = location.state.card
-          // const id_card = card.id
-          const response = await get(`services/${extractedNumber}`);
-          console.log(response.data)
-          setData(response.data);
-          } catch (error) {
-          console.error(error);
-      }
-    };
-
-    useEffect(() => {
-      fetchData();
-    }, [])
-
-    // useEffect(() => {
-    //   let card = location.state?.card || JSON.parse(localStorage.getItem('selectedCard')) || {};
-    //   // let card=location.state.card
-    //    setUserData(card);
-    //    setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
-    //  }, []);
-
-    
-    
-  
   
       if (userData === null) {
         return <div>Un instant...</div>;
@@ -104,7 +56,7 @@ const Theme2 = () => {
                         </button>
                     </div>
           
-          {data.length > 0 && (
+        {data.length > 0 && (
             <div className='Theme2-social-main'>
                 <div className='Theme2-social-container'>
                     {userData.facebook ? (
@@ -156,7 +108,7 @@ const Theme2 = () => {
                     ): null}
                 </div>
             </div>
-          )}
+        )}
 
         {data.length > 0 && (
           <>
@@ -190,21 +142,27 @@ const Theme2 = () => {
           </>
         )}
 
+        {galleryData.length > 0 &&(
+                <div className='images-theme-gallery'>
+                    <h2 style={{ textAlign: "center", color:'black' }}> Photos </h2>
 
-        {/* <div className='Theme2-email-main'>
-          <div className='Theme2-email-section'>
-            <FaEnvelope className='Theme2-fa-email' size={32}/> <br/>
-            <p> {userData.email} </p>
-          </div>
-        </div> */}
+                    <div className='flexed-images-theme'>
+                        {galleryData.map((galerie, index) => (
+                            <div className='images-theme-content' key={index}>
+                                <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+        )}
 
-      {data.length > 0 &&(
+        {data.length > 0 &&(
         <div>
-          <h2 style={{ textAlign: "center", color:"black" }}> Nos services </h2>
+          <h2 style={{ textAlign: "center", color:"black" }}> Services </h2>
           {data.map((service, index) => (
             <div className='theme2-one-service' key={index}>
               <div className='theme3-service-image'>
-                  <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} />
+                  <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} alt='' />
               </div>
               <div className='theme2-service-body'>
                 <p className='theme3-servicename'> {service.name} </p>
@@ -213,7 +171,7 @@ const Theme2 = () => {
             </div>
           ))}
         </div>
-      )}
+        )}
         
     </div>
   )

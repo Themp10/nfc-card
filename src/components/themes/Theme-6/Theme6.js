@@ -1,23 +1,20 @@
 import React from 'react'
-import image from "../../../no-image.png"
 import "./Theme6.css"
-import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaFacebook, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaMailBulk, FaLocationArrow, FaBirthdayCake } from 'react-icons/fa'
+import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaFacebook, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaMailBulk, FaLocationArrow } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
-import { get } from "../../../http/api"
+import { useParams } from 'react-router-dom'
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
-import Elips from '../../reusable/Elips'
-
-
+import { useGalleryData, useUserData, useServiceData  } from '../../../http/CustomHooks'
 
 
 
 const Theme6 = () => {
 
-    const [userData, setUserData] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([])
-    const [load, setLoad] = useState(false)
+    const { id_card } = useParams();
+    const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
 
     const [vcardData, setVCardData] = useState(null);
 
@@ -32,84 +29,6 @@ const Theme6 = () => {
       saveVCard(vcardData, userData);
     };
 
-    // const {id_card} = useParams();
-
-    const location = useLocation();
-
-    const { id_card } = useParams();
-    const extractedNumber = id_card.split('-')[1];
-
-
-    const fetchUserData = async () => {
-        try {
-          const response = await get(`cards/card/${extractedNumber}`);
-          setUserData(response.data)
-          console.log(extractedNumber);
-          setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
-          setLoad(false)
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      }
-    
-      useEffect(() => {
-        fetchUserData();
-      }, []);
-
-    // useEffect(() => {
-    //     let card=location.state.card
-    //      setUserData(card);
-    //      setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
-    //    }, []);
-
-    // const fetchData = async () => {
-    //     try {
-    //         let card = location.state.card
-    //         const id_card = card.id
-    //         const response = await get(`services/${id_card}`);
-    //         setData(response.data);
-    //         console.log(id_card)
-    //         } catch (error) {
-    //         console.error(error);
-    //     }
-    //   };
-
-    //   useEffect(() => {
-    //     fetchData();
-    //   }, [])
-
-    // useEffect(() => {
-    //     // let card = location.state ? location.state.card : null;
-    //     let card = location.state?.card || JSON.parse(localStorage.getItem('selectedCard')) || {};
-    //     if (card) {
-    //       setUserData(card);
-    //       setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
-    //     } else {
-    //       console.error('Location state is null');
-    //     }
-    //   }, [location.state]);
-
-
-    
-      const fetchData = async () => {
-        try {
-            // const id_card = card.id;
-            const response = await get(`services/${extractedNumber}`);
-            setData(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    
-      useEffect(() => {
-        fetchData();
-      }, []);
-
-
-       if (userData === null) {
-        return <div> {load && <Elips/>} </div>;
-      }
-
 
   return (
     <div className='theme5-container theme6-container'>
@@ -122,7 +41,7 @@ const Theme6 = () => {
                         </div>
                         <div className='theme4-image-container'>
                             <div className='theme4-image-content theme6-image-content'>
-                                <img src={imageUrl}/>
+                                <img src={imageUrl} alt=''/>
                             </div>
                         </div>
                     </div>
@@ -131,7 +50,6 @@ const Theme6 = () => {
                     <div className='theme4-added-section-content'>
                         <p className='theme4-first-p'> {userData.fonction} </p>
                         <p className='theme4-second-p'> {userData.societe} </p>
-                        {/* <p> Déscription : digital sync mark gkjghjsghjgkg  </p> */}
                     </div>
                 </div>
 
@@ -232,13 +150,28 @@ const Theme6 = () => {
                             </div>
                         </div>
                     )}
+
+                {galleryData.length > 0 &&(
+                    <div className='images-theme-gallery'>
+                        <h2 style={{ textAlign: "center", color:'black' }}> Photos </h2>
+
+                        <div className='flexed-images-theme'>
+                            {galleryData.map((galerie, index) => (
+                                <div className='images-theme-content' key={index}>
+                                    <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 {data.length > 0 &&(
                     <div>
-                    <h2 style={{ textAlign: "center", color:"black" }}> Nos services </h2>
+                    <h2 style={{ textAlign: "center", color:"black" }}> Services </h2>
                     {data.map((service, index) => (
                         <div className='theme6-one-service' key={index}>
                             <div className='theme3-service-image'>
-                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} />
+                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} alt='' />
                             </div>
                             <div className='theme6-service-body'>
                                 <p className='theme3-servicename'> {service.name} </p>

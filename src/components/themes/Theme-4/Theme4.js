@@ -1,13 +1,10 @@
 import React from 'react'
-// import image from "../../../no-image.png"
 import "./Theme4.css"
-// import { FaUser } from 'react-icons/fa'
 import { useEffect, useState } from 'react'
 import { FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaLocationArrow, FaMailBulk, FaPhone, FaPinterest, FaReddit, FaTiktok, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa'
-import { useLocation, useParams } from 'react-router-dom'
-import { get } from "../../../http/api"
+import { useParams } from 'react-router-dom'
 import { generateVCard, saveVCard } from '../../VcardsGenerator/VcardsGenerator'
-
+import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks'
 
 
 
@@ -15,14 +12,14 @@ import { generateVCard, saveVCard } from '../../VcardsGenerator/VcardsGenerator'
 
 const Theme4 = () => {
 
-    const [userData, setUserData] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([])
-
     const [vcardData, setVCardData] = useState(null);
 
     const { id_card } = useParams();
     const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
+
 
     useEffect(() => {
       if (userData) {
@@ -45,51 +42,6 @@ const Theme4 = () => {
     };
     
 
-    const location = useLocation();
-
-    const fetchUserData = async () => {
-      try {
-        const response = await get(`cards/card/${extractedNumber}`);
-        setUserData(response.data)
-        console.log(extractedNumber);
-        setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    }
-  
-    useEffect(() => {
-      fetchUserData();
-    }, []);
-
-    // useEffect(() => {
-    //     let card = location.state?.card || JSON.parse(localStorage.getItem('selectedCard')) || {};
-    //     // let card=location.state.card
-    //     setUserData(card);
-    //     setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
-    //     console.log(card.photo)
-    //     console.log(location.state.selectedImageIndex)
-
-    // }, []);
-
-    const fetchData = async () => {
-        try {
-            // let card = location.state.card
-            // const id_card = card.id
-            const response = await get(`services/${extractedNumber}`);
-            const user = response.data
-            setData(user);
-            console.log(user)
-            } catch (error) {
-            console.error(error);
-        }
-      };
-
-      useEffect(() => {
-        fetchData();
-      }, [])
-
-
        if (userData === null) {
         return <div>Loading...</div>;
       }
@@ -105,7 +57,7 @@ const Theme4 = () => {
                         </div>
                         <div className='theme4-image-container'>
                             <div className='theme4-image-content'>
-                                <img src={imageUrl}/>
+                                <img src={imageUrl} alt=''/>
                             </div>
                         </div>
                     </div>
@@ -114,8 +66,6 @@ const Theme4 = () => {
                     <div className='theme4-added-section-content'>
                         <p className='theme4-first-p'> {userData.fonction} </p>
                         <p style={{ marginBottom:"20px" }}  className='theme4-second-p'> {userData.societe} </p>
-                        {/* <h2 style={{ marginTop: "10px", marginBottom: "5px" }}> A propos </h2> */}
-                        {/* <p style={{ marginBottom:"10px" }}> Je suis un développeur web et application. </p> */}
                     </div>
                     <div >
                         <button onClick={handleSaveClick} className='theme4-add-cntc'>
@@ -219,13 +169,28 @@ const Theme4 = () => {
                         </div>
                     </div>
                 )}
+
+                {galleryData.length > 0 &&(
+                    <div className='images-theme-gallery'>
+                        <h2 style={{ textAlign: "center", color:'black' }}> Photos </h2>
+
+                        <div className='flexed-images-theme'>
+                            {galleryData.map((galerie, index) => (
+                                <div className='images-theme-content' key={index}>
+                                    <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
                 {data.length > 0 &&(
                     <div>
-                    <h2 style={{ textAlign: "center", color:"black" }}> Nos services </h2>
+                    <h2 style={{ textAlign: "center", color:"black" }}> Services </h2>
                     {data.map((service, index) => (
                         <div className='theme4-one-service' key={index}>
                             <div className='theme3-service-image'>
-                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} />
+                                <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} alt='' />
                             </div>
                             <div className='theme4-service-body'>
                                 <p className='theme3-servicename'> {service.name} </p>

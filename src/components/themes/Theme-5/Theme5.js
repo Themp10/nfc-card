@@ -1,22 +1,24 @@
 import React from 'react'
-// import img from "./reada.png"
 import "./Theme5.css"
-import { FaEnvelope,FaPhone,FaInstagram,FaFacebook,FaYoutube,FaLinkedin,FaGlobe, FaMailBulk, FaLocationArrow, FaTwitter, FaPinterest, FaWhatsapp, FaReddit, FaTiktok } from "react-icons/fa";
+import { FaPhone,FaInstagram,FaFacebook,FaYoutube,FaLinkedin,FaGlobe, FaMailBulk, FaLocationArrow, FaTwitter, FaPinterest, FaWhatsapp, FaReddit, FaTiktok } from "react-icons/fa";
 import { useState, useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { get } from "../../../http/api"
+import { useParams } from 'react-router-dom';
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
 import noImage from '../../../no-image.png'
+import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks';
 
 
 const Theme5 = () => {
 
+    const { id_card } = useParams();
+    const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
+
+
     const [vcardData, setVCardData] = useState(null);
-    const [userData, setUserData] = useState(null);
-    const [defaultImage, setDefaultImage] = useState(noImage);
 
-
-    
 
     useEffect(() => {
         if (userData) {
@@ -28,63 +30,6 @@ const Theme5 = () => {
       const handleSaveClick = () => {
         saveVCard(vcardData, userData);
       };
-
-
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([])
-
-
-    const location = useLocation();
-
-    const { id_card } = useParams();
-    const extractedNumber = id_card.split('-')[1];
-
-
-    const fetchUserData = async () => {
-        try {
-          const response = await get(`cards/card/${extractedNumber}`);
-          setUserData(response.data)
-          console.log(extractedNumber);
-          setImageUrl(`http://localhost:5000/api/uploads/${response.data.photo}`);
-        } catch (error) {
-          console.error('Error fetching user data:', error);
-        }
-      }
-    
-      useEffect(() => {
-        fetchUserData();
-      }, []);
-    
-
-    // useEffect(() => {
-    //     let card = location.state?.card || JSON.parse(localStorage.getItem('selectedCard')) || {};
-    //     setUserData(card);
-    //     setImageUrl(`http://localhost:5000/api/uploads/${card.photo}`);
-    //     if (!imageUrl) {
-    //         setDefaultImage(noImage);
-    //     }
-    //      console.log(card.photo)
-    //    }, []);
-       
- 
-
-
-    const fetchData = async () => {
-        try {
-            // let card = location.state.card
-            // const id_card = card.id
-            const response = await get(`services/${extractedNumber}`);
-            const user = response.data
-            setData(user);
-            console.log(user)
-            } catch (error) {
-            console.error(error);
-        }
-      };
-
-      useEffect(() => {
-        fetchData();
-      }, [])
 
 
     const handleEmailClick = () => {
@@ -107,7 +52,7 @@ const Theme5 = () => {
         <div className='theme5-container'>
             <div className='theme5-content'>
                 <div className='theme5-header'>
-                    <img src={imageUrl || defaultImage} className='theme5-image-profile' />
+                    <img src={imageUrl || noImage} className='theme5-image-profile' alt='' />
                 </div>
                 <div className='theme5-body'>
                     <div className='theme5-paragraphs'>
@@ -218,6 +163,23 @@ const Theme5 = () => {
 
                 <div className='theme5-divider'> </div>
 
+                {galleryData.length > 0 &&(
+                    <div className='images-theme-gallery'>
+                        <h3 style={{ textAlign: "center", color:'#cee8ff', marginTop: '30px' }}> Photos </h3>
+
+                        <div className='flexed-images-theme'>
+                            {galleryData.map((galerie, index) => (
+                                <div className='images-theme-content' key={index}>
+                                    <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className='theme5-divider'> </div>
+
+
                 {data.length > 0 &&(
                     <div className='theme5-services-container'>
                             <h3> Services </h3>
@@ -237,10 +199,6 @@ const Theme5 = () => {
                 </div>
             </div>
         </div>
-        {/* <div className='theme5-second-container'>
-            <img src={imageUrl} className='theme5-image-preview'/>
-            <p style={{ fontWeight: "bold", fontSize:"20px" }}> {userData.card_name}'s preview </p>
-        </div> */}
     </div>
   )
 }
