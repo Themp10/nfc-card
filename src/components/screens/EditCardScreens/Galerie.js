@@ -84,11 +84,11 @@ const Galerie = ({id_card}) => {
     <div>
         <div>
             <div className='container-gallery'>
+                  <div style={{ float:'right',   }}>
+                      <button onClick={openAddPicture} className='add-service-button'> Ajouter une image </button>
+                  </div>
                 {data.length > 0 &&(
                     <>
-                        <div style={{ float:'right',  }}>
-                            <button onClick={openAddPicture} className='add-service-button'> Ajouter une image </button>
-                        </div> <br/> <br/> <br/>
                         <div className='image-gallery'>
                             {data.map((galerie, index) => (
                                     <div className='gallery-item' key={index}>
