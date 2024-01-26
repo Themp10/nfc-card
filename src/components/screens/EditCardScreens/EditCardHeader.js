@@ -5,6 +5,7 @@ import SocialLinks from './SocialLinks';
 import Templates from './Templates';
 import Services from './Services';
 import Galerie from './Galerie';
+import BsHours from './BsHours';
 import './Edition.css'
 
 const EditCardHeader = ({editedCard,handleEditInputChange,handleEditSubmit, id_card, handleHideEditCard}) => {
@@ -49,6 +50,12 @@ const EditCardHeader = ({editedCard,handleEditInputChange,handleEditSubmit, id_c
             >
                 Galerie
             </button>
+            <button
+                className={activeComponent === 'BsHours' ? 'active' : ''}
+                onClick={() => handleButtonClick('BsHours')}
+            >
+                Heures de travail
+            </button>
         </div>
 
         {activeComponent === "BasicDetails" && <BasicDetails handleHideEditCard={handleHideEditCard} editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit}/>}
@@ -56,6 +63,7 @@ const EditCardHeader = ({editedCard,handleEditInputChange,handleEditSubmit, id_c
         {activeComponent === "SocialLinks" && <SocialLinks handleHideEditCard={handleHideEditCard} editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit} />}    
         {activeComponent === "Services" && <Services id_card={id_card} handleHideEditCard={handleHideEditCard} editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit} />} 
         {activeComponent === "Galerie" && <Galerie id_card={id_card} handleHideEditCard={handleHideEditCard} editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit} />}    
+        {activeComponent === "BsHours" && <BsHours id_card={id_card} handleHideEditCard={handleHideEditCard} editedCard={editedCard} handleEditInputChange={handleEditInputChange} handleEditSubmit={handleEditSubmit} />}    
 
     </div>
   )

@@ -44,6 +44,22 @@ exports.createOne = async (req,res,user) => {
   const updateCountQuery = 'UPDATE users SET card_count = card_count + 1 WHERE id = ?';
   await execQuery(mysql.format(updateCountQuery, [data.id_user]));
 
+  //l ajout des heures d trvl
+
+  const daysOfWeek = ["Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi", "Dimanche"];
+  try {
+    for (const day of daysOfWeek) {
+      const bsHoursQuery = 'INSERT INTO bs_hours (day, start_time, end_time, id_card, id_user, status) VALUES (?, ?, ?, ?, ?, ?)';
+      const bsHoursValues = [day, '00:00', '00:15', results.insertId, data.id_user, 0];
+      const bsHoursSearchQuery = mysql.format(bsHoursQuery, bsHoursValues);
+      await execQuery(bsHoursSearchQuery);
+    }
+  } catch (error) {
+    console.error('Error creating bs_hours records:', error);
+    return sendResponse(res, 500, 'ERROR_CREATING_BS_HOURS', null);
+  }
+
+
   return sendResponse(res, 200, "DATA_SUCCESS", data);
 };
 

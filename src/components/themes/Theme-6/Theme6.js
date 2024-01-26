@@ -4,7 +4,7 @@ import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaF
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
-import { useGalleryData, useUserData, useServiceData  } from '../../../http/CustomHooks'
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks'
 
 
 
@@ -15,6 +15,7 @@ const Theme6 = () => {
     const { userData, imageUrl } = useUserData(extractedNumber);
     const galleryData = useGalleryData(extractedNumber);
     const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
 
     const [vcardData, setVCardData] = useState(null);
 
@@ -28,6 +29,12 @@ const Theme6 = () => {
     const handleSaveClick = () => {
       saveVCard(vcardData, userData);
     };
+
+    const hoursArray = Object.values(hoursData);
+
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
+
+    
 
 
   return (
@@ -176,6 +183,27 @@ const Theme6 = () => {
                             <div className='theme6-service-body'>
                                 <p className='theme3-servicename'> {service.name} </p>
                                 <p> {service.description} </p>
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
+                
+
+                {hoursData.length > 0 && isOpen &&(
+                    <div>
+                    <h2 style={{ textAlign: "center", color:"black" }}> Heures de travail </h2>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme6-one-service' key={index}>
+                            <div className='theme6-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
                             </div>
                         </div>
                     ))}

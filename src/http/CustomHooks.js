@@ -77,5 +77,29 @@ export const useServiceData = () => {
     return data;
 };
 
+export const useHoursData = () => {
+  const [hoursData, setHoursData] = useState({});
+
+  const { id_card } = useParams();
+  const extractedNumber = id_card.split('-')[1];
+
+  const fetchData = async () => {
+    try {
+      const response = await get(`bs_hours/${extractedNumber}`);
+      const user = response.data;
+      setHoursData(user);
+      console.log(user);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  return hoursData;
+};
+
 
 
