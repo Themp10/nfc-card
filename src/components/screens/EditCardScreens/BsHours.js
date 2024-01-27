@@ -44,11 +44,23 @@ const BsHours = ({id_card}) => {
         Dimanche: false,
       };
   
-      hoursData.forEach((hours) => {
-        initialSelectedDays[hours.day] = hours.status === 1;
-      });
+      const initialTimesByDay = {};
+
+    hoursData.forEach((hours) => {
+      initialSelectedDays[hours.day] = hours.status === 1;
+
+      const startTime = hours.start_time ? hours.start_time.slice(0, 5) : '00:00';
+      const endTime = hours.end_time ? hours.end_time.slice(0, 5) : '00:15';
+
+      initialTimesByDay[hours.day] = {
+        from: startTime,
+        to: endTime,
+      };
+    });
+
   
       setSelectedDays(initialSelectedDays);
+      setTimesByDay(initialTimesByDay);
     }
   }, [hoursData]);
 
@@ -109,36 +121,47 @@ const BsHours = ({id_card}) => {
     setTimesByDay(newTimesByDay);
   };
 
-
   const handleSave = async () => {
     const selectedDaysArray = Object.entries(selectedDays)
       .filter(([day, isChecked]) => isChecked)
       .map(([day]) => day);
-
-    const id_user = localStorage.getItem('id_user')
-
-    const data = selectedDaysArray.map((day, isChecked) => ({
+  
+    const id_user = localStorage.getItem('id_user');
+  
+    const data = selectedDaysArray.map((day) => ({
       day,
       start_time: timesByDay[day]?.from || '00:00',
       end_time: timesByDay[day]?.to || '00:15',
       id_card,
-      id_user, 
-      status: isChecked ? 1 : 0,
-    }));
-
-    console.log('Selected days . tiems:', data);
-    console.log(id_card)
+      id_user,
+      status: 1,
+    })).concat(
+      Object.entries(selectedDays)
+        .filter(([day, isChecked]) => !isChecked)
+        .map(([day]) => ({
+          day,
+          start_time: '00:00',
+          end_time: '00:15',
+          id_card,
+          id_user,
+          status: 0,
+        }))
+    );
+  
+    console.log('Selected days and times:', data);
+    console.log(id_card);
+  
     try {
-      const response = await fetch(` http://localhost:5000/api/bs_hours/${id_card} `, {
+      const response = await fetch(`http://localhost:5000/api/bs_hours/${id_card}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
-
+  
       if (response.ok) {
-        toast.success('Heures de travail ont été mis à jour')
+        toast.success('Heures de travail ont été mis à jour');
         console.log('Data saved successfully');
       } else {
         console.error('Error saving data:', response.statusText);
@@ -147,6 +170,46 @@ const BsHours = ({id_card}) => {
       console.error('Error saving data:', error.message);
     }
   };
+  
+
+
+  // const handleSave = async () => {
+  //   const selectedDaysArray = Object.entries(selectedDays)
+  //     .filter(([day, isChecked]) => isChecked)
+  //     .map(([day]) => day);
+
+  //   const id_user = localStorage.getItem('id_user')
+
+  //   const data = selectedDaysArray.map((day, isChecked) => ({
+  //     day,
+  //     start_time: timesByDay[day]?.from || '00:00',
+  //     end_time: timesByDay[day]?.to || '00:15',
+  //     id_card,
+  //     id_user, 
+  //     status: isChecked ? 1 : 0,
+  //   }));
+
+  //   console.log('Selected days . tiems:', data);
+  //   console.log(id_card)
+  //   try {
+  //     const response = await fetch(` http://localhost:5000/api/bs_hours/${id_card} `, {
+  //       method: 'PATCH',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     if (response.ok) {
+  //       toast.success('Heures de travail ont été mis à jour')
+  //       console.log('all is goof');
+  //     } else {
+  //       console.error('Error saving data:', response.statusText);
+  //     }
+  //   } catch (error) {
+  //     console.error('Error saving data:', error.message);
+  //   }
+  // };
 
   return (
     <div className="time-picker-container">

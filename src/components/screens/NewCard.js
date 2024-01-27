@@ -42,8 +42,7 @@ const NewCard = ({handleHideNewcard}) => {
   });
 
   const handleChange = (e) => {
-    const file = e.target
-    console.log('hoooo', file)
+    // const file = e.target
     if (e.target.name === 'photo') {
       setFormData({
         ...formData,

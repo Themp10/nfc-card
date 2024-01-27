@@ -16,38 +16,28 @@ const Settings = () => {
 
 
 
+  // const handleValueChange = (e) => {
+  //   setUserData({
+  //     ...userData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  // };
+ 
   const handleValueChange = (e) => {
-    const file = e.target
-    console.log('haaa', file)
-    if (e.target.name === 'image') {
-      setUserData({
-        ...userData,
-        [e.target.name]: e.target.files[0],
-      });
+    const { name, value, files } = e.target;
+    console.log(files)
+  
+    if (name === "image") {
+      const selectedFile = files[0];
+      setFile(URL.createObjectURL(selectedFile));
+      console.log(selectedFile)
+      setUserData({ ...userData, image: selectedFile });
     } else {
-      setUserData({
-        ...userData,
-        [e.target.name]: e.target.value,
-      });
+      const crState = { ...userData };
+      crState[name] = value;
+      setUserData(crState);
     }
   };
-
-
-  // const handleValueChange = (e) => {
-  //   const { name, value, files } = e.target;
-  //   console.log(files)
-  
-  //   if (name === "image") {
-  //     const selectedFile = files[0];
-  //     setFile(URL.createObjectURL(selectedFile));
-  //     console.log(selectedFile)
-  //     setUserData({ ...userData, image: selectedFile });
-  //   } else {
-  //     const crState = { ...userData };
-  //     crState[name] = value;
-  //     setUserData(crState);
-  //   }
-  // };
 
   const openModalPass = () => {
     setOpenPassModal(true)
@@ -61,13 +51,15 @@ const Settings = () => {
 
     try {
         const id_user = localStorage.getItem("id_user");
-        const formData = new FormData();
+        // const formData = new FormData();
 
-        formData.append("fullname", userData.fullname);
-        formData.append("image", userData.image);
+        // formData.append("fullname", userData.fullname);
+        // formData.append("image", userData.image);
         
 
         const response = await patch('users/user/'+id_user, {data:userData});
+        // const response = await patch('users/user/'+id_user, formData);
+
         toast.success("Vos données ont été mis à jour")
         console.log(response)
       } catch (error) {

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
 import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks'
+import { FaCalendar } from 'react-icons/fa';
 
 
 
@@ -195,6 +196,7 @@ const Theme6 = () => {
                     <h2 style={{ textAlign: "center", color:"black" }}> Heures de travail </h2>
                     {hoursData.map((hours, index) => (
                         <div className='theme6-one-service' key={index}>
+                            <FaCalendar size={30}/>
                             <div className='theme6-service-body'>
                                 <p className='theme3-servicename'> {hours.day} </p>
                                     {hours.status === 0 ? (

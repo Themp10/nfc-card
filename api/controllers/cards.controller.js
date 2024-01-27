@@ -31,6 +31,7 @@ exports.createOne = async (req,res,user) => {
                                             ' VALUES ("000000", ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   const values = [data.full_name, data.email, data.phone_number, data.fonction, data.societe, data.website, data.theme,image.filename,data.youtube, data.linkedin, data.instagram,data.facebook, data.adresse, data.naissance, data.twitter, data.reddit, data.whatsapp, data.pinterrest, data.tiktok, data.card_name, data.status, card_date, data.id_user];
   let search_query = mysql.format(query,values)
+  console.log('firstffrfrgr', image)
  
   let results=await execQuery(search_query) 
   const rndId=generateId(results.insertId)

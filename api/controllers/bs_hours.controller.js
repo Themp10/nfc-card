@@ -24,7 +24,7 @@ exports.updateOne = async (req, res) => {
           SET start_time=?, end_time=?, status=?
           WHERE day=? AND id_card=?
         `;
-        const updateValues = [entry.start_time, entry.end_time, entry.status || 0, entry.day, req.params.id_card];
+        const updateValues = [entry.start_time, entry.end_time, entry.status, entry.day, req.params.id_card];
         await execQuery(mysql.format(updateQuery, updateValues));
       }
   
