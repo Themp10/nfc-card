@@ -1,11 +1,11 @@
 import React from 'react'
 import "./Theme5.css"
-import { FaPhone,FaInstagram,FaFacebook,FaYoutube,FaLinkedin,FaGlobe, FaMailBulk, FaLocationArrow, FaTwitter, FaPinterest, FaWhatsapp, FaReddit, FaTiktok } from "react-icons/fa";
+import { FaPhone,FaInstagram,FaFacebook,FaYoutube,FaLinkedin,FaGlobe, FaMailBulk, FaLocationArrow, FaTwitter, FaPinterest, FaWhatsapp, FaReddit, FaTiktok, FaCalendar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
 import noImage from '../../../no-image.png'
-import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks';
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks';
 
 
 const Theme5 = () => {
@@ -15,6 +15,7 @@ const Theme5 = () => {
     const { userData, imageUrl } = useUserData(extractedNumber);
     const galleryData = useGalleryData(extractedNumber);
     const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
 
 
     const [vcardData, setVCardData] = useState(null);
@@ -44,6 +45,9 @@ const Theme5 = () => {
        if (userData === null) {
         return <div>Loading...</div>;
       }
+
+    const hoursArray = Object.values(hoursData);
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
 
 
 
@@ -194,6 +198,29 @@ const Theme5 = () => {
                                 </div>
                             </div>
                         ))}
+                    </div>
+                )}
+
+                <div className='theme5-divider'> </div>
+
+                {hoursData.length > 0 && isOpen &&(
+                    <div className='theme5-services-container'>
+                    <h3> Heures de travail </h3>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme5-hours' key={index}>
+                            <FaCalendar color='' size={30}/>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
+                            </div>
+                        </div>
+                    ))}
                     </div>
                 )}
                 </div>

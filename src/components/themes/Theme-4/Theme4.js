@@ -1,10 +1,10 @@
 import React from 'react'
 import "./Theme4.css"
 import { useEffect, useState } from 'react'
-import { FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaLocationArrow, FaMailBulk, FaPhone, FaPinterest, FaReddit, FaTiktok, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa'
+import { FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaLocationArrow, FaMailBulk, FaPhone, FaPinterest, FaReddit, FaTiktok, FaTwitter, FaWhatsapp, FaYoutube, FaCalendar } from 'react-icons/fa'
 import { useParams } from 'react-router-dom'
 import { generateVCard, saveVCard } from '../../VcardsGenerator/VcardsGenerator'
-import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks'
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks'
 
 
 
@@ -19,6 +19,10 @@ const Theme4 = () => {
     const { userData, imageUrl } = useUserData(extractedNumber);
     const galleryData = useGalleryData(extractedNumber);
     const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
+
+    const hoursArray = Object.values(hoursData);
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
 
 
     useEffect(() => {
@@ -195,6 +199,27 @@ const Theme4 = () => {
                             <div className='theme4-service-body'>
                                 <p className='theme3-servicename'> {service.name} </p>
                                 <p> {service.description} </p>
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
+
+                {hoursData.length > 0 && isOpen &&(
+                    <div>
+                    <h2 style={{ textAlign: "center", color:"black" }}> Heures de travail </h2>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme4-one-service' key={index}>
+                            <FaCalendar color='' size={30}/>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
                             </div>
                         </div>
                     ))}

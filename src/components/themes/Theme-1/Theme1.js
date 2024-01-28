@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { FaEnvelope, FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaPhone, FaWhatsapp, FaYoutube, FaReddit, FaPinterest } from 'react-icons/fa';
+import { FaEnvelope, FaFacebook, FaGlobe, FaInstagram, FaLinkedin, FaPhone, FaWhatsapp, FaYoutube, FaReddit, FaPinterest, FaCalendar, FaLocationArrow } from 'react-icons/fa';
 import { useParams } from 'react-router-dom';
 import { generateVCard, saveVCard } from '../../VcardsGenerator/VcardsGenerator';
 import "./Theme1.css";
 import noImgProfile from '../../../no-image-icon-23479.png'
-import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks'
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks'
 
 
 const Theme1 = () => {
@@ -16,6 +16,11 @@ const Theme1 = () => {
     const { userData, imageUrl } = useUserData(extractedNumber);
     const galleryData = useGalleryData(extractedNumber);
     const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
+
+    const hoursArray = Object.values(hoursData);
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
+
 
 
 
@@ -84,6 +89,12 @@ const Theme1 = () => {
               {userData.phone_number ? (
                 <div className='theme1-user-phone1'>
                   <p> <FaPhone size={40} className="theme1-phone-icon" /> <span className='user-data'> <a href={`tel:${userData.phone_number}`} className='user-data'> {userData.phone_number} </a> </span> </p>
+                </div>
+              ): null}
+
+              {userData.adresse ? (
+                <div className='theme1-user-phone1'>
+                  <p> <FaLocationArrow size={40} className="theme1-mail-icon" /> <span className='user-data'> <a className='user-data'> {userData.adresse} </a> </span> </p>
                 </div>
               ): null}
 
@@ -161,6 +172,27 @@ const Theme1 = () => {
                     ))}
                     </div>
               )}
+
+                {hoursData.length > 0 && isOpen &&(
+                    <div>
+                    <h2 style={{ borderLeft:"1px dashed", marginLeft:"45px", paddingLeft:"30px", marginBottom:"30px", marginTop:"20px", color:"black" }}> Heures de travail </h2>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme1-one-service' key={index}>
+                            <FaCalendar color='' size={30}/>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
           </div>
         </div>
       </div>

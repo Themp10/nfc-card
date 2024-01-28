@@ -1,11 +1,11 @@
 import React from 'react'
 import "./Theme3.css"
-import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaFacebook, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaMailBulk, FaLocationArrow } from 'react-icons/fa'
+import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaFacebook, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaMailBulk, FaLocationArrow, FaCalendar } from 'react-icons/fa'
 import { useState, useEffect } from 'react';
 import { useParams  } from 'react-router-dom';
 import log from "../../../no-image.png"
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
-import { useGalleryData, useUserData, useServiceData } from '../../../http/CustomHooks'
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks'
 
 
 
@@ -16,6 +16,11 @@ const Theme3 = () => {
     const { userData, imageUrl } = useUserData(extractedNumber);
     const galleryData = useGalleryData(extractedNumber);
     const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
+
+    const hoursArray = Object.values(hoursData);
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
+
 
     const [vcardData, setVCardData] = useState(null);
 
@@ -189,6 +194,27 @@ const Theme3 = () => {
                     ))}
                 </div>
             )}
+            
+            {hoursData.length > 0 && isOpen &&(
+                    <div>
+                    <h2 style={{ textAlign: "center", color:"black" }}> Heures de travail </h2>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme2-one-service' key={index}>
+                            <FaCalendar color='' size={30}/>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
         </div>
     </div>
   )
