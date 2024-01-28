@@ -90,45 +90,44 @@ exports.createOne = async (req, res) => {
    
   };
 
-  exports.updateOne = async (req, res) => {
-    const data = req.body.data;
+  // exports.updateOne = async (req, res) => {
+  //   const data = req.body.data;
+  //   const id_user = req.params.id_user;
+  //   const image = req.file;
+  
+  //   let query;
+  //   let values;
+  
+  //   if (image) {
+  //     query = 'UPDATE users SET `fullname`=?, `image`=? WHERE id=?';
+  //     values = [data.fullname, image.filename, id_user];
+  //   } else {
+  //     query = 'UPDATE users SET `fullname`=? WHERE id=?';
+  //     values = [data.fullname, id_user];
+  //   }
+  
+  //   let search_query = mysql.format(query, values);
+  //   let results = await execQuery(search_query);
+  //   console.log( 'ffrgrgr', image)
+  //   return sendResponse(res, 200, "DATA_SUCCESS", results);
+  // };
+  
+
+
+exports.updateOne = async (req, res) => {
+    const data=req.body
     const id_user = req.params.id_user;
-    const image = req.body;
-  
-    let query;
-    let values;
-  
-    if (image) {
-      // If image is present, update fullname and image
-      query = 'UPDATE users SET `fullname`=?, `image`=? WHERE id=?';
-      values = [data.fullname, image.filename, id_user];
-    } else {
-      // If image is not present, update only fullname
-      query = 'UPDATE users SET `fullname`=? WHERE id=?';
-      values = [data.fullname, id_user];
-    }
-  
-    let search_query = mysql.format(query, values);
-    let results = await execQuery(search_query);
-    console.log( 'ffrgrgr', image)
-    return sendResponse(res, 200, "DATA_SUCCESS", results);
-  };
-  
 
-
-// exports.updateOne = async (req, res) => {
-//     const data=req.body.data
-//     const id_user = req.params.id_user;
-
-//     const image = req.file
+    const image = req.file
     
 
-//     let query = 'UPDATE users set `fullname`=?,`image`=? where id=?';
-//     const values = [data.fullname, image.filename , id_user];
-//     let search_query = mysql.format(query,values)
-//     let results=await execQuery(search_query) 
-//     return sendResponse(res, 200, "DATA_SUCCESS", results); 
-//   };
+    let query = 'UPDATE users set `fullname`=?,`image`=? where id=?';
+    const values = [data.fullname, image ? image.path : null , id_user];
+    let search_query = mysql.format(query,values)
+    let results=await execQuery(search_query) 
+    console.log('1212454' ,image)
+    return sendResponse(res, 200, "DATA_SUCCESS", results); 
+  };
 
 
 

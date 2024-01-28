@@ -10,6 +10,7 @@ import Dashboard from './components/admin/Main';
 import ThemeRenderer from './components/screens/EditCardScreens/ThemeRenderer';
 import Main from "./mainwebsite/Main/Main";
 import errorImage from "./error(1).png"
+import not_found from './not_found.png'
 
 
 function PageNotFound() {

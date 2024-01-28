@@ -48,6 +48,7 @@ const NewCard = ({handleHideNewcard}) => {
         ...formData,
         [e.target.name]: e.target.files[0],
       });
+      console.log(e.target.files[0])
     } else {
       setFormData({
         ...formData,
@@ -74,6 +75,7 @@ const NewCard = ({handleHideNewcard}) => {
       insertData.append('card_name', formData.card_name);
       insertData.append('fonction', formData.fonction);
       insertData.append('photo', formData.photo);
+      
       await axios.post('http://localhost:5000/api/cards', insertData);
       handleHideNewcard(false);
       toast.success("Votre carte a été bien ajoutée")

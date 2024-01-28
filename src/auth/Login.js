@@ -79,7 +79,7 @@ const Login = () => {
             <label htmlFor="password">Mot de passe</label>
             <input type="password" id="password" name="password" placeholder="Votre mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
-          <button className='login-button' type="submit" > {loading ? <Elips /> : 'Login' } </button>
+          <button className='login-button' type="submit" > {loading ?  <Elips /> : 'Login' } </button>
           {/* {loading && <Elips  />} */}
           {/* <button className='login-button' type="submit">Login</button> */}
           {error && <div className="error-login-message">{error}</div>}

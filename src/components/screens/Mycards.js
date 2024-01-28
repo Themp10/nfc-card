@@ -102,7 +102,7 @@ const Mycards = () => {
         await del(`cards/${id_user}/${selectedCardId}`);
         fetchCardData();
         setModalOpen(false);
-        toast.success(`Votre carte N°${id} a été suprimée avec succès`)
+        toast.success(`Votre carte a été suprimée avec succès`)
       }
     } catch (error) {
       console.error('Error deleting card:', error);
