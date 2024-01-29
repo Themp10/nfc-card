@@ -174,7 +174,7 @@
 }
 
 .theme5-servicename{
-    font-weight: 400 !important;
+    font-weight: bold !important;
 }
 
 .theme5-service-image img{
@@ -216,7 +216,7 @@
     width: 95%;
     margin-right: auto;
     margin-left: auto;
-    color: #bedbf4;
+    color: #bedbf4 ;
   }
 
 

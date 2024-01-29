@@ -5,7 +5,8 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import Loading from '../reusable/Loading';
 import PasswordModal from './PasswordModal';
 import { toast } from 'react-toastify';
-import noImgSs from '../../no-image.png'
+import noImgSs from '../../no-image.png';
+import axios from 'axios';
 
 
 const Settings = () => {
@@ -16,36 +17,35 @@ const Settings = () => {
     image: null,
   });
   const [openPassModal, setOpenPassModal] = useState(false)
-  const [imageFile, setImageFile] = useState(null);
-  const [formData, setFormData] = useState(new FormData());
-
-  // const handleValueChange = (e) => {
-  //   const { name, value, files } = e.target;
-  //   if (name === "image") {
-  //     const selectedFile = files[0];
-  //     setFile(URL.createObjectURL(selectedFile));
-  //     setImageFile(selectedFile);
-  //     console.log(selectedFile)
-  //     formData.append(name, selectedFile);
-  //   } else {
-  //     setUserData({ ...userData, [name]: value });
-  //   }
-  // };
+  // const [formData, setFormData] = useState(new FormData());
 
   const handleValueChange = (e) => {
-    if (e.target.name === 'image') {
+    if (e.target.name === "image") {
+      const selectedFile = e.target.files[0];
       setUserData({
-        ...userData,
-        [e.target.name]: e.target.files[0],
-      });
-      console.log(e.target.files[0])
+              ...userData,
+              [e.target.name]: e.target.files[0],
+            });
+      setFile(URL.createObjectURL(selectedFile));
     } else {
-      setUserData({
-        ...userData,
-        [e.target.name]: e.target.value,
-      });
+      setUserData({ ...userData, [e.target.name]: e.target.value });
     }
   };
+
+  // const handleValueChange = (e) => {
+  //   if (e.target.name === 'image') {
+  //     setUserData({
+  //       ...userData,
+  //       [e.target.name]: e.target.files[0],
+  //     });
+  //     console.log(e.target.files[0])
+  //   } else {
+  //     setUserData({
+  //       ...userData,
+  //       [e.target.name]: e.target.value,
+  //     });
+  //   }
+  // };
 
 
   // const handleValueChange = (e) => {
@@ -92,9 +92,13 @@ const Settings = () => {
   const editSettings = async () => {
     try {
       const id_user = localStorage.getItem("id_user");
+      const formData = new FormData();
+
+
+      formData.append("fullname", userData.fullname);
       formData.append("image", userData.image);
   
-      const response = await patch('users/user/' + id_user, { fullname: userData.fullname, image: userData.image }, { headers: { 'Content-Type': 'multipart/form-data' } }, formData);
+      const response = await axios.patch('http://localhost:5000/api/users/user/' + id_user, { fullname: userData.fullname, image: userData.image }, { headers: { 'Content-Type': 'multipart/form-data' } }, formData);
   
       toast.success("Vos données ont été mises à jour");
       console.log(response);

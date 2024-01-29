@@ -118,11 +118,11 @@ exports.updateOne = async (req, res) => {
     const data=req.body
     const id_user = req.params.id_user;
 
-    const image = req.file
+    const image = req.file.filename
     
 
     let query = 'UPDATE users set `fullname`=?,`image`=? where id=?';
-    const values = [data.fullname, image ? image.path : null , id_user];
+    const values = [data.fullname, image, id_user];
     let search_query = mysql.format(query,values)
     let results=await execQuery(search_query) 
     console.log('1212454' ,image)

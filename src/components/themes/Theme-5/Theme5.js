@@ -208,7 +208,7 @@ const Theme5 = () => {
                     <h3> Heures de travail </h3>
                     {hoursData.map((hours, index) => (
                         <div className='theme5-hours' key={index}>
-                            <FaCalendar color='' size={30}/>
+                            <FaCalendar  size={30}/>
                             <div className='theme1-service-body'>
                                 <p className='theme3-servicename'> {hours.day} </p>
                                     {hours.status === 0 ? (
