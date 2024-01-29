@@ -12,23 +12,11 @@ reqFormatMiddleware = (req, res,next) => {
 
           break;
         case "POST":
-/*             if(!req.body.data){
-                return sendResponse(res,404,"MISSING_DATA_KEY",{}) 
-            }  */
           break;
         case "PATCH":
-            // console.log(req.body)
-            // if(!req.body.data){
-            //     return sendResponse(res,404,"MISSING_DATA_KEY",{}) 
-            // }else{
-            //     if(!req.body.data.values)return sendResponse(res,404,"MISSING_VALUES_KEY",{}) 
-            //     if(!req.body.data.filter)return sendResponse(res,404,"MISSING_FILTER_KEY",{}) 
-            // }
-
-        break;
+          break;
         case "DELETE":
             console.log("req params",req.params)
-
         break;
 
         default:

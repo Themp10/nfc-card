@@ -2,8 +2,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;500;600;700;800&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,100;1,300;1,400&display=swap');
 
-
-
 *{
     padding: 0;
     margin: 0;
@@ -12,7 +10,6 @@
 .container-website{
     font-family: sans-serif;
 }
-
 
 /* Responsive Navbar */
 
@@ -139,7 +136,6 @@
 
 .text-changer{
     color: #9A73B5;
-    /* animation: changeText 4.5s linear infinite; */
 }
 
 .content-of-first{
@@ -217,10 +213,6 @@
 .image-container img{
     border-radius: 30px;
 }
-
-/* .image-container:hover{
-    filter: brightness(40%);
-} */
 
 .text-image-flex{
     display: flex;
@@ -446,8 +438,7 @@
 
 .plan h1, h2, p{
     font-family: 'Montserrat', sans-serif;
-/*     margin-bottom: 20px;
- */}
+}
 
 .plan h1{
     font-size: 40px;
@@ -637,7 +628,6 @@
 
     .first-section-top{
         text-align: center;
-        /* width: 80%; */
     }
 
     .columns-container{

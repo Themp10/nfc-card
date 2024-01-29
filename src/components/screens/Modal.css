@@ -13,7 +13,7 @@
   }
   
   .Delete-modal-content {
-    background: #fff;
+    background-color: var(--bg-300);
     width: 300px;
     border-radius: 5px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);

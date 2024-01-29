@@ -1,18 +1,11 @@
-
-
-
-
 const mysql = require('mysql2')
-
-
-
 
 exports.execQuery = (query) => {
   return new Promise((resolve, reject) => {
     const connection = mysql.createConnection({
-      host: "ouss.sytes.net",
-      user: "admin",
-      password: "Thethepo06+",
+      host: "localhost",
+      user: "root",
+      password: "",
       database: "nfc_card" ,
     })
     connection.connect((err) => {

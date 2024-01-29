@@ -1,21 +1,26 @@
 import React from 'react'
-import image from '../../../Assets/nfc_detector.jpg'
 import "./Theme3.css"
-import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaFacebook, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaMailBulk, FaLocationArrow, FaBirthdayCake } from 'react-icons/fa'
+import { FaReddit, FaTiktok, FaInstagram, FaTwitter, FaYoutube, FaPinterest, FaFacebook, FaLinkedin, FaWhatsapp, FaGlobe, FaPhone, FaMailBulk, FaLocationArrow, FaCalendar } from 'react-icons/fa'
 import { useState, useEffect } from 'react';
-import { useLocation, useParams  } from 'react-router-dom';
+import { useParams  } from 'react-router-dom';
 import log from "../../../no-image.png"
-import { get } from "../../../http/api"
-import { getImage } from '../../../http/api';
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks'
+
 
 
 const Theme3 = () => {
 
-    const [userData, setUserData] = useState(null);
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([])
-    const [images, setimages] = useState([])
+    const { id_card } = useParams();
+    const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
+
+    const hoursArray = Object.values(hoursData);
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
+
 
     const [vcardData, setVCardData] = useState(null);
 
@@ -30,34 +35,9 @@ const Theme3 = () => {
       saveVCard(vcardData, userData);
     };
 
-    // const {id_card} = useParams();
-
-    const location = useLocation();
-
-    useEffect(() => {
-        let card=location.state.card
-         setUserData(card);
-         setImageUrl(`http://ouss.sytes.net:5000/api/uploads/${card.photo}`);
-       }, []);
-
-    const fetchData = async () => {
-        try {
-            // const id_card = localStorage.getItem("id_card")
-            let card = location.state.card
-            const id_card = card.id
-            const response = await get(`services/${id_card}`);
-            setData(response.data);
-            // setimages(`http://ouss.sytes.net:5000/api/uploads/${response.data.image}`)
-            // console.log(response.data.image)
-            // console.log(id_card)
-            } catch (error) {
-            console.error(error);
-        }
-      };
-
-      useEffect(() => {
-        fetchData();
-      }, [])
+    const handleEmailClick = () => {
+        window.location.href = `mailto:${userData.email}`;
+    };
 
 
        if (userData === null) {
@@ -65,7 +45,7 @@ const Theme3 = () => {
       }
 
   return (
-    <div className='theme3-container'>
+    <div className='theme3-container theme5-container'>
         <div className='theme3-content'>
             <div className='theme3-flexed-topbar'>
                 <div className='theme3-topbar-image'>
@@ -80,12 +60,13 @@ const Theme3 = () => {
                 </div>
             </div>
 
-                    <div className='theme5-add-to-contact'>
+                    <div className='theme3-add-to-contact'>
                         <button onClick={handleSaveClick}>
                             Ajouter aux contacts
                         </button>
                     </div>
 
+        {data.length > 0 && (
             <div className='theme3-icons-container'>
                 <div className='theme3-icons-content'>
                     {userData.instagram ?(
@@ -150,54 +131,90 @@ const Theme3 = () => {
                     }
                 </div>
             </div>
+        )}
 
+        {data.length > 0 && (
             <div className='theme3-contact-container'>
                 <div className='theme3-contact-content'>
-                    {/* <div className='theme3-contact-1'>
-                        <FaBirthdayCake size={30} />
-                        <p> 23/09/1111 </p>
-                    </div> */}
-                    {userData.email ? (
-                        <div className='theme3-contact-1'>
-                            <FaMailBulk size={30} />
-                            <p> {userData.email} </p>
-                        </div>
-                    ) : null
-                    }
-                    {userData.phone_number ? (
-                        <div className='theme3-contact-1'>
-                            <FaPhone size={30} />
-                            <p> {userData.phone_number} </p>
-                        </div>
-                    ) : null
-                    }
-                    {userData.adresse ? (
-                        <div className='theme3-contact-1'>
-                            <FaLocationArrow size={30} />
-                            <p> {userData.adresse} </p>
-                        </div>
-                    ) : null
-                    }
+
+                    <div onClick={handleEmailClick} className='theme3-contact-1'>
+                            {userData.email ? (
+                                <div className=''>
+                                    <p> <FaMailBulk size={30}  /> <br/> <span className='user-data' style={{ textDecoration: "none", letterSpacing: '2px' }}>  {userData.email} </span> </p>
+                                </div>
+                            ): null}
+                    </div>
+
+                    <a href={`tel:${userData.phone_number}`} className='theme3-contact-1'>
+                            {userData.phone_number ? (
+                                <div className=''>
+                                    <p> <FaPhone size={30}  /> <br/> <span className='user-data' style={{ textDecoration: "none", letterSpacing: '2px' }}>  {userData.phone_number} </span> </p>
+                                </div>
+                                ): null}
+                    </a>
+
+                    <div className='theme3-contact-1'>
+                            {userData.adresse ? (
+                                <div className=''>
+                                    <p> <FaLocationArrow size={30}  /> <br/> <span className='user-data' style={{ textDecoration: "none", letterSpacing: '2px' }}>  {userData.adresse} </span> </p>
+                                </div>
+                                ): null}
+                    </div>
                 </div>
             </div>
+        )}
 
-            <div className='theme3-services-container'>
-                <div className='theme3-services-content'>
-                    <h2> Nos services </h2>
+            {galleryData.length > 0 &&(
+                <div className='images-theme-gallery'>
+                    <h2 style={{ textAlign: "center", color:'black' }}> Photos </h2>
+
+                    <div className='flexed-images-theme'>
+                        {galleryData.map((galerie, index) => (
+                            <div className='images-theme-content' key={index}>
+                                <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {data.length > 0 &&(
+                <div>
+                    <h2 style={{ textAlign: "center", color:'black' }}> Services </h2>
                     {data.map((service, index) => (
-                        <div key={index} className='theme3-one-service'>
-                            <div className='theme3-service-image'>
-                                <img src={`http://ouss.sytes.net:5000/api/uploads/${service.image}`} width={50} height={50} />
-                            </div>
-                            <div className='theme3-service-body'>
-                                <p className='theme3-servicename'> {service.name} </p>
-                                <p> {service.description} </p>
-                            </div>
+                        <div className='theme2-one-service' key={index}>
+                        <div className='theme3-service-image'>
+                            <img src={`http://localhost:5000/api/uploads/${service.image}`} width={50} height={50} alt='' />
+                        </div>
+                        <div className='theme2-service-body'>
+                            <p className='theme3-servicename'> {service.name} </p>
+                            <p> {service.description} </p>
+                        </div>
                         </div>
                     ))}
                 </div>
-            </div>
-
+            )}
+            
+            {hoursData.length > 0 && isOpen &&(
+                    <div>
+                    <h2 style={{ textAlign: "center", color:"black" }}> Heures de travail </h2>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme2-one-service' key={index}>
+                            <FaCalendar color='' size={30}/>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
         </div>
     </div>
   )

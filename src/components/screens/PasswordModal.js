@@ -1,16 +1,12 @@
 import React from 'react'
 import './Modal.css'
-import { TextField } from '@mui/material'
 import { checkPassword } from '../../http/api'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import PasswordsFields from './EditCardScreens/PasswordsFields'
-import { useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 const PasswordModal = ({closeModalPass}) => {
 
-  const navigate = useNavigate();
 
   const [showPassFields, setShowPassFields] = useState(false);
   const [password, setPassword] = useState('');
@@ -31,20 +27,13 @@ const PasswordModal = ({closeModalPass}) => {
       }
     }
     const res = await checkPassword(passChecking);
-    // console.log(id)
-
     if(res.message === "PASSWORD_CORRECT") {
       setShowPassFields(true)
-      // toast.success("Mot de passe correcte")
       setError("")
     } else if (res.message === "PASSWORD_INCORRECT") {      
       toast.error('Mot de passe invalide')
     }    
   };
-
-
-
-
 
   return (
     <div className="Delete-modal-container">

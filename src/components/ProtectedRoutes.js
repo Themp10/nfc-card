@@ -1,6 +1,5 @@
 import React from 'react';
-import { Route, Navigate, Outlet, Routes } from 'react-router-dom';
-import { get } from '../http/api';
+import { Navigate } from 'react-router-dom';
 
 const isAuthenticated =   () => {
   const id_user = localStorage.getItem('id_user');
@@ -12,7 +11,7 @@ const isAuthenticated =   () => {
     return true;
   }
   console.log(response) */
-  return true;
+  return id_user && token;
 };
 /* 
 const ProtectedRoutes = ({ element: Component, ...rest }) => {

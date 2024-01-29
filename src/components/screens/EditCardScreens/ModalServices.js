@@ -2,7 +2,6 @@ import React from 'react'
 import axios from 'axios';
 import { useState } from 'react';
 import { toast } from 'react-toastify';
-import Theme3 from '../../themes/Theme-3/Theme3';
 import backImage from "../../../no-image.png"
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -11,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ModalServices = ({id_card, setModalServices, updateData}) => {
 
-  const [backgroundImage, setBackgroundImage] = useState(backImage);
+  // const [backgroundImage, setBackgroundImage] = useState(backImage);
   const [uploadedImage, setUploadedImage] = useState(null);
   const [showEditIcon, setShowEditIcon] = useState(false);
 
@@ -74,19 +73,15 @@ const ModalServices = ({id_card, setModalServices, updateData}) => {
             insertData.append('description', formData.description);
 
             insertData.append('image', formData.image);
-            
-            // insertData.append('photo', formData.photo);
-      
-            const response = await axios.post('http://ouss.sytes.net:5000/api/services', insertData);
-            // updateData(response.data);
+            await axios.post('http://localhost:5000/api/services', insertData);
             setModalServices(false)
             toast.success("Le service a été bien ajouté")
-            // localStorage.setItem("id_card", id_card)
           } catch (error) {
             console.log(error);
           }
     }
 
+    
     function ff(e) {
       handleImageUpload(e);
       handleServicesChange(e)
@@ -113,10 +108,14 @@ const ModalServices = ({id_card, setModalServices, updateData}) => {
                               className="new-card-image-container"
                               onMouseEnter={handleMouseEnter}
                               onMouseLeave={handleMouseLeave}
-                              style={{ backgroundImage: `url(${backgroundImage})`, width:"150px", height:"150px" }}
+                              style={{  
+                                background: uploadedImage ? 'none' : `url(${backImage})`,
+                                width:"150px", 
+                                height:"150px"
+                              }}
                             >
                               {uploadedImage && (
-                                <img src={uploadedImage} alt="Uploaded Image" className="new-card-uploaded-image" />
+                                <img src={uploadedImage} alt="Uploaded" className="new-card-uploaded-image" />
                               )}
                               {!uploadedImage && <div className="new-card-overlay" />}
                               {showEditIcon && (

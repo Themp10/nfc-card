@@ -1,14 +1,13 @@
 import React,{Fragment,useEffect,useState} from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleUser,faChartSimple,faIdCard,faList,faRightFromBracket,faGear } from '@fortawesome/free-solid-svg-icons'
+import { faChartSimple,faIdCard,faRightFromBracket,faGear, faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 import CloseIcon from '../reusable/CloseIcon';
 import { useNavigate} from 'react-router-dom';
 import {deleteData} from '../../store/Store'
-// import { delete} from '../../http/api';
-import { get, getImage } from '../../http/api';
+import { get } from '../../http/api';
 import Loading from '../reusable/Loading';
-import noImage from "./profile-no-image.png"
+import noImgss from '../../no-image.png'
 
 const Sidebar = ({updateTitle}) => {
   const [showPers, setShowPers] = useState([])
@@ -34,13 +33,22 @@ const Sidebar = ({updateTitle}) => {
   }
   const handleItemClick = (event) => {
     let itemText = event.currentTarget.textContent;
-    if (itemText==""){
+    if (itemText===""){
       itemText="Mon compte"
     }
     console.log(itemText)
      setTitle(itemText)
      updateTitle(itemText)
      localStorage.setItem("title", itemText);
+  };
+
+  const fullName = showPers.fullname;
+
+  const getInitials = (fullName) => {
+    return fullName
+      .split(' ')
+      .map((word) => word.charAt(0).toUpperCase())
+      .join('');
   };
 
 
@@ -50,7 +58,8 @@ const Sidebar = ({updateTitle}) => {
         const id_user = localStorage.getItem("id_user");
         const response = await get('users/'+id_user);
         setShowPers(response.data);
-        setImagePic(`http://ouss.sytes.net:5000/api/uploads/${response.data.image}`);
+        // setImagePic(`http://localhost:5000/api/uploads/${response.data.image}`);
+        setImagePic(response.data.image ? `http://localhost:5000/api/uploads/${response.data.image}` : noImgss);
         setIsLoading(false)
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -61,6 +70,7 @@ const Sidebar = ({updateTitle}) => {
 
   },[])
 
+ 
 
   return (
     <Fragment>
@@ -72,23 +82,13 @@ const Sidebar = ({updateTitle}) => {
       <div className={"sidebar "+(!open?"closed":"")}>
 
         <div className="sidebar-top">
-          {/* <FontAwesomeIcon icon={faCircleUser}  className='icon-fa-user'/> */}
-          <FontAwesomeIcon icon={faGear} className='icon-settings' onClick={handleItemClick}/>
-
-          {/* <img src={imagePic} alt='image account' className='sidebar-image-account' />
-          <h2 className='sidebar-text'> {showPers.fullname} </h2> */}
-
           {isLoading ? 
             <Loading/>
               :
               <>
-                {/* {imagePic ? (
-                  <img src={imagePic} className='sidebar-image-account' alt={showPers.fullname} />
-                ) : (
-                  <img src={noImage} className='sidebar-image-account'  />
-                )} */}
-                {/* <img src={imagePic}  className='sidebar-image-account' /> */}
-                <img src={imagePic ?  imagePic : noImage} className='sidebar-image-account' alt="&#128100;" />
+                {/* <img src={imagePic} className='sidebar-image-account' alt={getInitials(fullName)} /> */}
+                <img src={imagePic} className='sidebar-image-account' />
+
                 <h2 className='sidebar-text'> {showPers.fullname} </h2>
               </>
           }
@@ -105,8 +105,12 @@ const Sidebar = ({updateTitle}) => {
             <p className={'sidebar-text '+(title==="Mes cartes"?"selected-text":"")}>Mes cartes</p>
           </div>
           <div className="sidebar-item" onClick={handleItemClick}>
-            <FontAwesomeIcon icon={faList} className={'icon-sidebar-item '+(title==="Demandes"?"selected-icon":"")} />
-            <p className={'sidebar-text '+(title==="Demandes"?"selected-text":"")}>Demandes</p>
+            <FontAwesomeIcon icon={faNoteSticky} className={'icon-sidebar-item '+(title==="Notes"?"selected-icon":"")} />
+            <p className={'sidebar-text '+(title==="Notes"?"selected-text":"")}>Notes</p>
+          </div>
+          <div className="sidebar-item" onClick={handleItemClick}>
+            <FontAwesomeIcon icon={faGear} className={'icon-sidebar-item '+(title==="Paramètres"?"selected-icon":"")} />
+            <p className={'sidebar-text '+(title==="Paramètres"?"selected-text":"")}>Paramètres</p>
           </div>
         </div>
 

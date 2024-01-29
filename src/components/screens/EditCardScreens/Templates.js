@@ -7,11 +7,8 @@ import fifth_theme_image from "../../../Assets/theme5_image_profile.png"
 import sixth_theme_image from "../../../Assets/theme6_image_profile.png"
 
 
-import ImageComponent from '../ImageComponent'
 import './Edition.css'
-import { post, patch } from '../../../http/api'
-import ThemeRenderer from './ThemeRenderer'
-import Theme1 from '../../themes/Theme-1/Theme1'
+import { patch } from '../../../http/api'
 import { toast } from 'react-toastify'
 
 const Templates = ({editedCard,handleEditInputChange,handleEditSubmit, id_card}) => {
@@ -20,20 +17,18 @@ const Templates = ({editedCard,handleEditInputChange,handleEditSubmit, id_card})
 
   const handleImageClick = (imageNumber) => {
     setSelectedImage(imageNumber);
-   /*  handleEditInputChange(); */
   };
 
   const handleFormImagesSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // await post('/cards/'+id_card, { theme: selectedImage });
       const updatedCardData = {
         ...editedCard,
         theme: selectedImage,
       };
       handleEditInputChange({ target: { name: 'theme', value: selectedImage } });
-      const response = await patch('cards/'+id_card, updatedCardData );
+      await patch('cards/'+id_card, updatedCardData );
       toast.success("Votre thème a été bien modifié")
     } catch (error) {
       console.error('Error:', error);
@@ -143,9 +138,6 @@ const Templates = ({editedCard,handleEditInputChange,handleEditSubmit, id_card})
             </button>
           </div>
         </form>
-
-        {/* <ThemeRenderer selectedImageIndex={selectedImage} /> */}
-          
       </div>
     </div>
   )

@@ -1,43 +1,25 @@
 import React from 'react'
-import img from "./reada.png"
 import "./Theme5.css"
-import { FaEnvelope,FaPhone,FaInstagram,FaFacebook,FaYoutube,FaLinkedin,FaGlobe, FaMailBulk, FaLocationArrow, FaTwitter, FaPinterest, FaWhatsapp, FaReddit, FaTiktok } from "react-icons/fa";
+import { FaPhone,FaInstagram,FaFacebook,FaYoutube,FaLinkedin,FaGlobe, FaMailBulk, FaLocationArrow, FaTwitter, FaPinterest, FaWhatsapp, FaReddit, FaTiktok, FaCalendar } from "react-icons/fa";
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { get } from "../../../http/api"
+import { useParams } from 'react-router-dom';
 import { saveVCard, generateVCard } from '../../VcardsGenerator/VcardsGenerator';
+import noImage from '../../../no-image.png'
+import { useGalleryData, useUserData, useServiceData, useHoursData } from '../../../http/CustomHooks';
 
 
 const Theme5 = () => {
 
+    const { id_card } = useParams();
+    const extractedNumber = id_card.split('-')[1];
+    const { userData, imageUrl } = useUserData(extractedNumber);
+    const galleryData = useGalleryData(extractedNumber);
+    const data = useServiceData(extractedNumber);
+    const hoursData = useHoursData(extractedNumber);
+
+
     const [vcardData, setVCardData] = useState(null);
-    const [userData, setUserData] = useState(null);
 
-    // const generateVCard = () => {
-
-    //     const socialLinks = [
-    //         userData.instagram ? `X-SOCIALPROFILE;type=instagram:x-user=${userData.instagram}\n` : '',
-    //         userData.twitter ? `X-SOCIALPROFILE;type=twitter:x-user=${userData.twitter}\n` : '',
-    //         userData.facebook ? `X-SOCIALPROFILE;type=facebook:x-user=${userData.facebook}\n` : '',
-    //         userData.linkedin ? `X-SOCIALPROFILE;type=linkedin:x-user=${userData.linkedin}\n` : '',
-    //         userData.pinterrest ? `X-SOCIALPROFILE;type=pinterrest:x-user=${userData.pinterrest}\n` : '',
-    //         userData.youtube ? `X-SOCIALPROFILE;type=youtube:x-user=${userData.youtube}\n` : '',
-    //       ].join('');
-
-    //     const vcard =
-    //       `BEGIN:VCARD\nVERSION:3.0\n` +
-    //       `N:${userData.full_name};;;\n` +
-    //       `FN:${userData.full_name}\n` +
-    //       `TEL;CELL:${userData.phone_number}\n` +
-    //       `EMAIL;HOME:${userData.email}\n` +
-    //       `ORG;WORK:${userData.societe}\n` +
-    //       `TITLE:${userData.fonction}\n` +
-    //       `ADR;HOME:${userData.adresse}\n` +
-    //       socialLinks +
-    //       `END:VCARD`;
-    
-    //     setVCardData(vcard);
-    //   };
 
     useEffect(() => {
         if (userData) {
@@ -49,59 +31,23 @@ const Theme5 = () => {
       const handleSaveClick = () => {
         saveVCard(vcardData, userData);
       };
-    
-    //   useEffect(() => {
-    //     if (userData) {
-    //       generateVCard();
-    //     }
-    //   }, [userData]);
-
-    //   const handleDownloadClick = () => {
-    //     if (vcardData) {
-    //       const blob = new Blob([vcardData], { type: 'text/vcard' });
-    //       const url = URL.createObjectURL(blob);
-    
-    //       const newLink = document.createElement('a');
-    //       newLink.download = `${userData.full_name}.vcf`;
-    //       newLink.href = url;
-    //       newLink.click();
-    //     }
-    //   };
-
-    const [imageUrl, setImageUrl] = useState('');
-    const [data, setData] = useState([])
 
 
-    const location = useLocation();
+    const handleEmailClick = () => {
+        window.location.href = `mailto:${userData.email}`;
+    };
 
-    useEffect(() => {
-        let card=location.state.card
-         setUserData(card);
-         setImageUrl(`http://ouss.sytes.net:5000/api/uploads/${card.photo}`);
-         console.log(card.photo)
-       }, []);
-
-    const fetchData = async () => {
-        try {
-            let card = location.state.card
-            const id_card = card.id
-            const response = await get(`services/${id_card}`);
-            const user = response.data
-            setData(user);
-            console.log(user)
-            } catch (error) {
-            console.error(error);
-        }
-      };
-
-      useEffect(() => {
-        fetchData();
-      }, [location.state.card])
+    const handlePhoneClick = () => {
+        window.location.href = `tel:${userData.phone_number}`;
+    };
 
 
        if (userData === null) {
         return <div>Loading...</div>;
       }
+
+    const hoursArray = Object.values(hoursData);
+    const isOpen = hoursArray.some((hours) => hours.status === 1);
 
 
 
@@ -110,7 +56,7 @@ const Theme5 = () => {
         <div className='theme5-container'>
             <div className='theme5-content'>
                 <div className='theme5-header'>
-                    <img src={img} className='theme5-image-profile' />
+                    <img src={imageUrl || noImage} className='theme5-image-profile' alt='' />
                 </div>
                 <div className='theme5-body'>
                     <div className='theme5-paragraphs'>
@@ -126,14 +72,14 @@ const Theme5 = () => {
                     <div className='theme5-infos-container'>
                         <div className='theme5-infos-content'>
                             {userData.email ? (
-                                <div className='theme5-infos-options'>
+                                <div onClick={handleEmailClick} className='theme5-infos-options'>
                                     <FaMailBulk color='#ff983f' size={30} />
                                     <p> {userData.email} </p>
                                 </div>
                             ) : null
                             }
                             {userData.phone_number ? (
-                                <div className='theme5-infos-options'>
+                                <div onClick={handlePhoneClick} className='theme5-infos-options'>
                                     <FaPhone color='#ff983f' size={30} />
                                     <p> {userData.phone_number} </p>
                                 </div>
@@ -151,6 +97,7 @@ const Theme5 = () => {
 
                     <div className='theme5-divider'> </div>
 
+                {data.length > 0 &&(
                     <div className='theme5-social-media'>
                         <h3> Réseaux sociaux </h3>
                         <div className='theme5-social-links'>
@@ -216,15 +163,34 @@ const Theme5 = () => {
                             }
                         </div>
                     </div>
+                )}
 
-                    <div className='theme5-divider'> </div>
+                <div className='theme5-divider'> </div>
 
+                {galleryData.length > 0 &&(
+                    <div className='images-theme-gallery'>
+                        <h3 style={{ textAlign: "center", color:'#cee8ff', marginTop: '30px' }}> Photos </h3>
+
+                        <div className='flexed-images-theme'>
+                            {galleryData.map((galerie, index) => (
+                                <div className='images-theme-content' key={index}>
+                                    <img src={`http://localhost:5000/api/uploads/${galerie.image}`} alt='gallery' className='gallery-theme-image' />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className='theme5-divider'> </div>
+
+
+                {data.length > 0 &&(
                     <div className='theme5-services-container'>
                             <h3> Services </h3>
                             {data.map((service) => (
                             <div key={service.id} className='theme5-one-service'>
                                 <div className='theme5-service-image'>
-                                    <img src={`http://ouss.sytes.net:5000/api/uploads/${service.image}`}  alt='service' />
+                                    <img src={`http://localhost:5000/api/uploads/${service.image}`}  alt='service' />
                                 </div>
                                 <div className='theme5-service-body'>
                                     <p className='theme5-servicename'> {service.name} </p>
@@ -233,12 +199,32 @@ const Theme5 = () => {
                             </div>
                         ))}
                     </div>
+                )}
+
+                <div className='theme5-divider'> </div>
+
+                {hoursData.length > 0 && isOpen &&(
+                    <div className='theme5-services-container'>
+                    <h3> Heures de travail </h3>
+                    {hoursData.map((hours, index) => (
+                        <div className='theme5-hours' key={index}>
+                            <FaCalendar  size={30}/>
+                            <div className='theme1-service-body'>
+                                <p className='theme3-servicename'> {hours.day} </p>
+                                    {hours.status === 0 ? (
+                                        <p> Fermé </p>
+                                    ) : (
+                                        <p>
+                                            {hours.start_time.slice(0, -3)} - {hours.end_time.slice(0, -3)}
+                                        </p>
+                                    )}
+                            </div>
+                        </div>
+                    ))}
+                    </div>
+                )}
                 </div>
             </div>
-        </div>
-        <div className='theme5-second-container'>
-            <img src={img} className='theme5-image-preview'/>
-            <p style={{ fontWeight: "bold", fontSize:"20px" }}> {userData.card_name}'s preview </p>
         </div>
     </div>
   )

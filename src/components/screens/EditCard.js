@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 const EditCard = ({handleHideEditCard, id_card}) => {
 
     const [editedCard, setEditedCard] = useState({})
+    const [imageFile, setImageFile] = useState(null);
 
     const handleEditInputChange = (event) => {
         console.log(event.target.value)
@@ -17,20 +18,23 @@ const EditCard = ({handleHideEditCard, id_card}) => {
         currentState[event.target.name] = event.target.value;
         setEditedCard(currentState);
 
+        if (event.target.type === 'file') {
+          setImageFile(event.target.files[0]);
+        }
        
     };
     
     const handleEditSubmit = async (event) => {
         try {
-            
-            const response = await patch('cards/'+id_card, editedCard);
+            const formData = new FormData();
+            formData.append('image', imageFile);
+            await patch('cards/'+id_card, editedCard, formData);
             toast.success("Vos données ont été enregistrées")
 
           } catch (error) {
             console.error('Error fetching data:', error);
           }
-
-       
+ 
     };
 
     useEffect(() => {
@@ -43,9 +47,7 @@ const EditCard = ({handleHideEditCard, id_card}) => {
             console.error('Error fetching data:', error);
           }
         }
-    
         fetchCardData();
-    
       },[])
 
   return (

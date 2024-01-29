@@ -6,7 +6,6 @@ const ImageComponent = ({ src }) => {
 
   const handleImageClick = () => {
     setModalOpen(true);
-    // document.body.style.overflow = 'hidden';
   };
 
   const closeModal = () => {

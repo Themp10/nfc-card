@@ -8,12 +8,10 @@ import logo from "../../Assets/SmartCard_Light.png"
 import { AiFillFileText } from 'react-icons/ai';
 import { FiAnchor, FiPhoneCall } from 'react-icons/fi';
 import { FaMapMarkerAlt, FaPhone } from 'react-icons/fa';
-import MobileMenu from './MobileMenu';
 import { useNavigate } from 'react-router-dom';
 import ImageComponent from './ImageComponent';
 import first_theme_image from "../../Assets/first-theme-smartcard.png"
 import nfcImage from "../../Assets/nfc_detector.jpg"
-//import 'bootstrap/dist/css/bootstrap.min.css';
 
 
 
@@ -23,15 +21,8 @@ const Main = () => {
 
     const getCurrentYear = () => new Date().getFullYear();
     const currentYear = getCurrentYear();
-
     const [showIcon, setShowIcon] = useState(false);
-
     const navigate = useNavigate();
-
-    const navigateToAccount = () => {
-        navigate("/login") 
-    }
-
     const handleScrollToTop = () => {
         window.scrollTo({
           top: 0,
@@ -57,17 +48,7 @@ const Main = () => {
         };
       }, []);
 
-    const [showMenu, setShowMenu] = useState(false);
 
-    const toggleMenu = () => {
-      setShowMenu(true);
-    //   document.body.style.overflow = 'hidden';
-    };
-
-    const closeToggleMenu = () => {
-        setShowMenu(false)
-    }
-    
     const [text, setText] = useState('Smart.');
     useEffect(() => {
         const interval = setInterval(() => {
@@ -117,37 +98,6 @@ const Main = () => {
                                 S'identifier
                             </button>
                         </div>
-                        {/* <div className="menu-icon" onClick={toggleMenu}>
-                            <div className={`bar ${showMenu ? 'active' : ''}`} />
-                            <div className={`bar ${showMenu ? 'active' : ''}`} />
-                            <div className={`bar ${showMenu ? 'active' : ''}`} />
-                        </div>
-                        <div>
-                            {showMenu && <MobileMenu closeToggleMenu={closeToggleMenu} />}
-                        </div>
-                        <div className='web-navbar'>
-                            <ul className={`nav-menu ${showMenu ? 'active' : ''}`}>
-                                <span className='logo-container'> <img src={logo} width={150} className='logo-content' alt='logo' /> </span>
-                                <li>
-                                    <Link to="first-div" smooth={true} duration={600}>Accueil</Link>
-                                </li>
-                                <li>
-                                    <Link to="second-div" smooth={true} duration={600}>Sur</Link>
-                                </li>
-                                <li>
-                                    <Link to="third-div" smooth={true} duration={600}>Portfolio</Link>
-                                </li>
-                                <li>
-                                    <Link to="fourth-div" smooth={true} duration={600}>Tarification</Link>
-                                </li>
-                                <li>
-                                    <Link to="sixth-div" smooth={true} duration={600}>Contact</Link>
-                                </li> 
-                                <button onClick={navigateToAccount} className='inscription-section'>
-                                    S'identifier  
-                                </button>
-                            </ul>
-                        </div> */}
                     </nav>
                 </div>
                 <div className='content-of-first'>
@@ -181,7 +131,6 @@ const Main = () => {
                             </div>
                     </div>
                 </div>
-                {/* <FaScroll size={50} className='scroll-icon'/> */}
                 <div className='arrow-to-top' style={iconStyle} onClick={handleScrollToTop}>
                     <FaArrowAltCircleUp className='arrow-top' size={60}/>
                 </div>

@@ -12,7 +12,5 @@ const { multerMiddleware, authJwt } = require("../middleware");
   router.get('/verify/:verificationToken', users.verifyEmail);
 
 
-
-
-  module.exports = router;
+module.exports = router;
 

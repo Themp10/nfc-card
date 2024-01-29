@@ -5,14 +5,15 @@
 
 
 .theme5-container{
-    max-width: 500px;
-    height: 90vh;
+    max-width: 450px;
+    height: 95vh;
     overflow-y: scroll;
     border-radius: 20px;
     margin-left: 4rem;
     margin-top: 1rem;
     scrollbar-width: thin;
     scrollbar-color: #c08aef #f1f1f1;
+    margin: 0 auto;
 }
 
 .theme5-main{
@@ -56,6 +57,7 @@
     width: 100%;
     height: 40%;
     background: linear-gradient(to bottom, transparent, #0F1C2E);
+    
 }
 
 .theme5-image-profile{
@@ -68,6 +70,8 @@
 .theme5-body{
     height: 100%;
     background: linear-gradient(to bottom, #0F1C2E, #1F3A5F, #3D5A80);
+    padding-bottom: 10px;
+
 }
 
 .theme5-paragraphs p{
@@ -112,6 +116,7 @@
     color: white;
     font-size: 18px;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .theme5-social-media{
@@ -169,7 +174,7 @@
 }
 
 .theme5-servicename{
-    font-weight: 400 !important;
+    font-weight: bold !important;
 }
 
 .theme5-service-image img{
@@ -198,6 +203,21 @@
     }
   }
 
+
+  
+  .theme5-hours{
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(to right, #3D5A80, #bedbf4) !important;
+    padding: 10px;
+    border-radius: 20px;
+    /* margin-bottom: 20px; */
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    color: #bedbf4 ;
+  }
 
 
 

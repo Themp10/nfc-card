@@ -1,9 +1,7 @@
 import React, { useState,useEffect } from 'react'
-import { get, getImage, patch, del } from '../../http/api';
-
-import logo from '../../no-image.png'
+import { get } from '../../http/api';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEdit,faTrash,faEye ,faCartShopping} from '@fortawesome/free-solid-svg-icons'
+import { faTrash,faEye} from '@fortawesome/free-solid-svg-icons'
 import Loading from '../reusable/Loading';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,12 +31,9 @@ const Demandes = () => {
 
   const handleView = async (card) => {
     try {
-      // const selectedImageIndex = card.theme || 0;
       const selectedImageIndex = card.theme;
       localStorage.setItem('selectedImageIndex', selectedImageIndex);
-      // localStorage.setItem('selectedCardId', selectedCardId);
       navigate(`/card/${card.rnd_id}`,{ state: { card, selectedImageIndex} });
-      // navigate(`/card/${card.rnd_id}`,{ state: { card, selectedImageIndex } });
     } catch (error) {
       console.error('error', error)
     }
@@ -53,11 +48,8 @@ const Demandes = () => {
 {loading?
           <Loading/>
           :
-
             <>
-  
                 <div className="cards-header">
- 
                 </div>
                   <div className="cards-table-container">
                       <table className="card-list-table">
@@ -106,19 +98,8 @@ const Demandes = () => {
 
 
                     </div>
-                    
-                
-
             </>
-          
-          
-          
-          
           }
-          
-
-
-
     </div>
   )
 }

@@ -1,8 +1,6 @@
-import React,{Fragment} from 'react'
-
+import React from 'react'
 import Body from './Body';
-
-import "./admin.css";
+import "./admin2.css";
 
 const Main = () => {
   return (
